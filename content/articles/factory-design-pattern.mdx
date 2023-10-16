@@ -1,0 +1,169 @@
+---
+title: "Introduction to the Factory Design Pattern"
+tags:
+  - title: Factory Design Pattern
+  - title: Design Pattern
+categories:
+  - title: Programming
+  - title: Java
+  - title: Design Pattern
+author:
+  name: Ross
+  designation: QE Leader
+  url: https://testingfly.com
+  avatar:
+    url: user.png
+    alt: Ross
+description: "The Factory Design Pattern is a creational design pattern that provides an interface for creating instances of a class, with its subclasses deciding the specific class to be instantiated."
+seoDescription: "Introduction to the Factory Design Pattern"
+covers:
+  - url: content/poisson-distribution/poisson_cover.jpg
+    alt: The Poisson Distribution Cover
+status: published
+publishedAt: 2023-02-22
+---
+
+
+Factory design pattern is a creational pattern providing an efficient way of creating objects by providing an abstracted layer separating the creation logic from the client code. Per wikipedia, the Factory design pattern is one of the twenty-three well-known "Gang of Four" design patterns that describe how to solve recurring design problems to design flexible and reusable object-oriented software, that is, objects that are easier to implement, change, test, and reuse.
+
+The Factory Method design pattern solves problems like:
+- How can an object be created so that subclasses can redefine which class to instantiate?
+- How can a class defer instantiation to subclasses?
+  
+Creating an object directly within the class that requires (uses) the object is inflexible because it commits the class to a particular object and makes it impossible to change the instantiation independently from (without having to change) the class.
+
+The Factory Method design pattern describes how to solve such problems:
+- Define a separate operation (factory method) for creating an object.
+- Create an object by calling a factory method. This enables writing of subclasses to change the way an object is created (to redefine which class to instantiate).
+
+<img
+  src="/images/content/factory-design-pattern/factory-design-uml.jpg"
+  alt="The Poisson Distribution Distribution Cover"
+  sizes="100vw"
+  width="100%"
+  height="auto"
+/>
+
+Given below are sample codes implementing the UML diagram above -
+
+
+
+```java
+/**
+Product interface
+**/
+public interface Travel {
+ public void bookTravel(String travel_id);
+ public void cancelTravel(String travel_id);
+ public void displayTravelInfo();
+}
+/**
+Libray Classes - concrete implementations of Product
+**/
+public class BusTravel implements Travel {
+ @Override
+ public void bookTravel(String travel_id) {
+  System.out.println("Booking travel...");
+
+ }
+
+ @Override
+ public void cancelTravel(String travel_id) {
+  System.out.println("Cancelling travel...");
+ }
+
+ @Override
+ public void displayTravelInfo(String travel_id) {
+  System.out.println("Displaying travel info...");
+ }
+}
+
+public class TrainTravel implements Travel {
+ @Override
+ public void bookTravel(String travel_id) {
+  System.out.println("Booking travel...");
+
+ }
+
+ @Override
+ public void cancelTravel(String travel_id) {
+  System.out.println("Cancelling travel...");
+ }
+
+ @Override
+ public void displayTravelInfo(String travel_id) {
+  System.out.println("Displaying travel info...");
+ }
+}
+
+
+public class FlightTravel implements Travel {
+ @Override
+ public void bookTravel(String travel_id) {
+  System.out.println("Booking travel...");
+
+ }
+
+ @Override
+ public void cancelTravel(String travel_id) {
+  System.out.println("Cancelling travel...");
+ }
+
+ @Override
+ public void displayTravelInfo(String travel_id) {
+  System.out.println("Displaying travel info...");
+ }
+}
+
+/**
+Creator abstract class
+**/
+public abstract class TravelCreator() {
+ public abstract Travel getTravel();
+}
+
+/**
+Concrete Product Creator
+**/
+public class BusTravelCreator extends TravelCreator() {
+ @Override
+ public Travel getTravel() {
+  return new BusTravel();
+ }
+}
+
+public class TrainTravelCreator extends TravelCreator() {
+ @Override
+ public Travel getTravel() {
+  return new TrainTravel();
+ }
+}
+
+public class FlightTravelCreator extends TravelCreator() {
+ @Override
+ public Travel getTravel() {
+  return new FlightTravel();
+ }
+}
+
+
+/**
+Client Code
+**/
+public class TravelBooking {
+ private final TravelCreator creator;
+
+ public TravelBooking(TravelCreator creator) {
+  this.creator = creator;
+ }
+
+ public void displayTravelInfo() {
+  creator.getTravel().displayTravelInfo();
+ }
+
+}
+
+TravelBooking tb_bus = new TravelBooking(new BusTravelCreator());
+TravelBooking tb_train = new TravelBooking(new TrainTravelCreator());
+TravelBooking tb_flight = new TravelBooking(new FlightTravelCreator());
+```
