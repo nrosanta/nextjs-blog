@@ -2,7 +2,7 @@ import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
 
-import avatarImage from "../public/images/user.png";
+import avatarImage from "../public/images/favicon.png";
 
 type Props = {
   large?: boolean;

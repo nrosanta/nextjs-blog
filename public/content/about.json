@@ -1,25 +1,25 @@
 {
-  "name": "Ross Meitei",
-  "designation": "Quality Engineering Senior Architect",
+  "name": "Testingfly",
+  "designation": "15+ Years IT Excellence: Leading Quality, Automation, DevOps",
   "company": {
-    "name": "Slalom Build",
+    "name": "",
     "url": "https://testingfly.com/"
   },
   "description": "With over 15 years of extensive IT experience, I bring strong leadership in quality engineering, test automation, and DevOps. I have demonstrated expertise in team management, client engagement, risk assessment, and championing best practices in agile environments, all while effectively establishing and overseeing test automation infrastructure.",
   "socialLinks": [
     {
       "name": "github",
-      "url": "https://github.com/mirsazzathossain"
+      "url": "https://github.com/testinfly"
     },
     {
       "name": "linkedin",
-      "url": "https://linkedin.com/in/mirsazzathossain"
+      "url": "https://linkedin.com/in/testingfly"
     },
     {
       "name": "twitter",
-      "url": "https://twitter.com/mir_sazzat"
+      "url": "https://twitter.com/testinfly"
     }
   ],
-  "resume": "files/mirsazzathossain-cv.pdf",
-  "note": "Seeking PhD opportunities in machine learning and computer vision."
+  "resume": "files/testinfly.pdf",
+  "note": ""
 }

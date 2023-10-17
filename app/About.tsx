@@ -51,8 +51,9 @@ export default async function About() {
         <h1 className="text-3xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-4xl">
           {about.name}
         </h1>
-        <h2 className="text-gray-600 dark:text-gray-400 tracking-tighter mb-4">
-          {about.designation} at{" "}
+        <h2 className="text-gray-600 dark:text-gray-100 tracking-tighter mb-4">
+          {about.designation} 
+           {/* at{" "} */}
           <Link
             className="font-semibold"
             href={about.company.url}
