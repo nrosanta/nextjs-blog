@@ -46,13 +46,13 @@ function SocialLink({
 export default async function About() {
   const about = await getAbout();
   return (
-    <Container className="mt-9">
+    <Container className="mt-5">
       <div className="max-w-5xl">
         <h1 className="text-3xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-4xl">
           {about.name}
         </h1>
-        <h2 className="text-gray-600 dark:text-gray-100 tracking-tighter mb-4">
-          {about.designation} 
+        <h2 className="text-gray-600 dark:text-gray-100 tracking-tighter mb-4 mt-1">
+          {about.motto} 
            {/* at{" "} */}
           <Link
             className="font-semibold"

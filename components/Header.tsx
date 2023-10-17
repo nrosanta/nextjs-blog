@@ -162,7 +162,7 @@ export default function Header(): JSX.Element {
           <>
             <div
               ref={avatarRef as any}
-              className="order-last mt-[calc(theme(spacing.16)-theme(spacing.3))]"
+              className="order-last mt-[calc(theme(spacing.0)-theme(spacing.0))]"
             />
             <Container
               className="top-0 order-last -mb-3 pt-3"
@@ -208,7 +208,7 @@ export default function Header(): JSX.Element {
                 />
                 <DesktopNavigation
                   links={navigations}
-                  className="pointer-events-auto hidden md:block"
+                  className="pointer-events-auto hidden md:block pt-0"
                 />
               </div>
               <div className="flex justify-end md:flex-1">

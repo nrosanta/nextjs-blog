@@ -21,7 +21,7 @@ export default function Articles({ articles }: { articles: Article[] }) {
               ))}
             </div>
 
-            {articles.length > 4 && (
+            {articles.length > 2 && (
               <div className="flex justify-center mt-10">
                 <Link
                   href="/articles"

@@ -40,7 +40,7 @@ export default function SearchArticles({
 
   return (
     <>
-      <div className="relative max-w-3xl mb-12 sm:mb-16">
+      <div className="relative max-w-4xl mb-12 sm:mb-16">
         <input
           aria-label="Search articles"
           type="text"
@@ -52,7 +52,7 @@ export default function SearchArticles({
         <MagnifyingGlassIcon className="absolute w-5 h-5 text-gray-400 right-3 top-3 dark:text-gray-300" />
       </div>
       <div className="md:border-l md:border-zinc-100 md:pl-6 md:dark:border-zinc-700/40">
-        <div className="flex max-w-3xl flex-col space-y-16">
+        <div className="flex max-w-4xl flex-col space-y-16">
           {currentArticles.map((article: any) => (
             <ArticleCard key={article.slug} article={article} />
           ))}

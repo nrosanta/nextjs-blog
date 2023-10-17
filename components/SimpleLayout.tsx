@@ -11,8 +11,8 @@ export default function SimpleLayout({
 }): JSX.Element {
   return (
     <Container className="mt-16 sm:mt-32">
-      <header className="max-w-3xl">
-        <h1 className="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-1xl">
+      <header className="max-w-1xl">
+        <h1 className="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-2xl">
           {title}
         </h1>
         {intro && (
