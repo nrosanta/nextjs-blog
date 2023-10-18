@@ -11,7 +11,7 @@ export default function Articles({ articles }: { articles: Article[] }) {
       {articles.length > 0 && (
         <Container className="mt-9">
           <div className="max-w-5xl">
-            <h3 className="font-bold text-2xl md:text-4xl tracking-tight mb-6 text-zinc-800 dark:text-zinc-100">
+            <h3 className="font-bold text-2xl md:text-2xl tracking-tight mb-6 text-zinc-800 dark:text-zinc-100">
               Articles
             </h3>
 

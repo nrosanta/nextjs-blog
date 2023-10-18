@@ -47,17 +47,17 @@ function SocialLink({
 export default async function About() {
   const about = await getAbout();
   return (
-    <Container className="mt-3">
-      <div className="max-w-5xl">
-        <h1 className="text-1xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-3xl">
-        <Avatar
-                  large
+    <Container className="mt-12">
+      <div className="max-w-1xl">
+        <h1 className="text-2xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-3xl">
+        {/* <Avatar
+                  small
                   // className="block h-16 w-16 origin-left"
                   style={{ transform: "var(--avatar-image-transform)" }}
-                /> 
+                />  */}
                 {/* {about.name} */}
         </h1>
-        <h2 className="text-gray-600 dark:text-gray-100 tracking-tighter mb-4 mt-1">
+        <h2 className="text-2xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-2xl">
           {about.motto} 
            {/* at{" "} */}
           <Link
@@ -65,7 +65,7 @@ export default async function About() {
             href={about.company.url}
             target={"_blank"}
           >
-            {about.company.name}
+            {/* {about.company.name} */}
           </Link>
         </h2>
         <p

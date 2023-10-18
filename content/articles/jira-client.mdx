@@ -1,0 +1,302 @@
+---
+title: "Fetch and Update Jira Data in an Excel Spreadsheet"
+tags:
+  - title: Design Driven Development
+  - title: API Design Driven
+categories:
+  - title: Programming
+  - title: API
+  - title: Design Driven Development
+author:
+  name: Ross
+  designation: QE Leader
+  url: https://testingfly.com
+  avatar:
+    url: user.png
+    alt: Ross
+description: "API design-driven development is an approach where the design and documentation of application programming interfaces (APIs) take precedence before implementing the rest of the software. It promotes collaboration, early validation, and reusability of APIs, making them a central building block in the development process. This approach ensures consistency, scalability, and adaptability in modern software development."
+seoDescription: "Introduction to the Factory Design Pattern"
+covers:
+  - url: content/poisson-distribution/poisson_cover.jpg
+    alt: The Poisson Distribution Cover
+status: published
+publishedAt: 2023-10-16
+---
+
+In this tutorial, we will go through a Python script that uses the Jira API to retrieve data and update an Excel spreadsheet. This script fetches Jira issues based on filter IDs and inserts them into different sheets in an Excel workbook. Additionally, it updates timestamp and refreshes pivot tables in the workbook.
+
+**Requirements:**
+1. Python
+2. Required Python packages: `requests`, `openpyxl`
+
+## Step 1: Setup
+
+Before running the script, make sure you have Python installed, along with the required packages. You can install the packages using pip:
+
+```bash
+pip install requests openpyxl
+```
+
+## Step 2: Jira API Configuration
+
+Replace the following placeholders in the script with your specific Jira API information:
+
+- `JIRA_API_URL`: The base URL for your Jira API.
+- `API_KEY`: Your Jira API key or token.
+- `USER_NAME`: Your Jira username.
+
+## Step 3: Define Functions
+
+### `get_jira_data(filter_id)`
+
+This function retrieves Jira issues based on the provided filter ID.
+
+- `filter_id`: The Jira filter ID to fetch data from.
+
+### `insert_epics(ws, data)`
+
+Inserts data into the "Epics Raw" worksheet.
+
+- `ws`: The Excel worksheet to insert data into.
+- `data`: The Jira issues data for epics.
+
+### `insert_stories(ws, data)`
+
+Inserts data into the "Stories Raw" and "Stories Raw (Active Sprint)" worksheets.
+
+- `ws`: The Excel worksheet to insert data into.
+- `data`: The Jira issues data for stories.
+
+### `insert_bugs(ws, data)`
+
+Inserts data into the "Bugs Raw" worksheet.
+
+- `ws`: The Excel worksheet to insert data into.
+- `data`: The Jira issues data for bugs.
+
+### `update_timestamp(wb)`
+
+Updates the timestamp in the "Summary" worksheet.
+
+- `wb`: The Excel workbook to update.
+
+### `refresh_pivots(wb)`
+
+Refreshes pivot tables in the "Pivots" worksheet.
+
+- `wb`: The Excel workbook to refresh.
+
+### `write_to_excel(data, wb, worksheet_name, type)`
+
+Writes data to the specified Excel worksheet.
+
+- `data`: The Jira data to write to the worksheet.
+- `wb`: The Excel workbook.
+- `worksheet_name`: Name of the target worksheet.
+- `type`: Type of data (epics, stories, or bugs).
+
+## Step 4: Main Execution
+
+The script's main execution is within the `if __name__ == '__main__':` block. This section fetches Jira data, writes it to the appropriate worksheet, and updates the timestamp and pivot tables in the Excel workbook.
+
+Replace the filter IDs with the ones you want to use and ensure that the worksheet names correspond to your Excel workbook.
+
+## Step 5: Run the Script
+
+Run the Python script to fetch Jira data and update the Excel workbook. Ensure that your Excel workbook is saved at the provided `file_path`.
+
+```bash
+python your_script_name.py
+```
+
+This script will fetch data from Jira and update your Excel workbook with the relevant information in separate worksheets, refresh pivot tables, and update the timestamp.
+
+Your Excel file will be updated with the latest Jira data as per your defined filters and worksheet names.
+
+## Complete Working Code
+
+```python
+import datetime
+import requests 
+import openpyxl 
+
+
+
+# Jira API URL and API Key 
+JIRA_API_URL = "https://securian.atlassian.net/rest/api/latest/search?jql=filter=" 
+API_KEY = '' 
+USER_NAME = ''
+ 
+# Function to retrieve Jira issues based on a filter ID 
+def get_jira_data(filter_id): 
+    
+    # Set up HTTP basic authentication with your API token 
+    auth = (f'{USER_NAME}', f'{API_KEY}') 
+    url = f'{JIRA_API_URL}' + filter_id
+    
+    data = []
+    startAt = 0
+    maxResults = 100
+    total = 1
+    
+    while startAt <=total:
+        params = { 
+                    'startAt': startAt,
+                    'maxResults': maxResults
+                }
+        response = requests.get(url, auth=auth, params=params)
+        res_json = response.json()
+        data.extend(res_json['issues'])
+        startAt += maxResults
+        total = res_json['total']
+    
+    if response.status_code == 200: 
+        return data
+    else: 
+        print(data)
+        print(f'Failed to fetch Jira data for filter ID {filter_id}') 
+        return []
+
+
+
+
+def insert_epics(ws, data):
+    ws.delete_rows(1,ws.max_row)
+    headers = ['Issue Key', 'Summary', 'Assignee', 'Status', 'Project Name'] 
+    ws.append(headers) 
+
+
+    # Write data 
+    for issue in data: 
+        issue_key = issue['key'] 
+        summary = issue['fields']['summary'] 
+        assignee = issue['fields']['assignee']['displayName'] if issue['fields']['assignee'] else 'Unassigned' 
+        status = issue['fields']['status']['name'] 
+        project_name = issue['fields']['project']['name']
+        ws.append([issue_key, summary, assignee, status, project_name])
+        
+        
+def insert_stories(ws, data):
+    ws.delete_rows(1,ws.max_row)
+    headers = ['Issue Key', 'Summary', 'Assignee', 'Status', 'Story Point', 'Sprint', 'Parent Key', 'Parent', 'Project'] 
+    ws.append(headers) 
+
+
+    # Write data 
+    for issue in data: 
+        issue_key = issue['key'] 
+        summary = issue['fields']['summary'] 
+        assignee = issue['fields']['assignee']['displayName'] if issue['fields']['assignee'] else 'Unassigned' 
+        status = issue['fields']['status']['name'] 
+        try:
+            parent_key = issue['fields']['parent']['key']
+        except:
+            parent_key = ''
+        try:
+            parent_summary = issue['fields']['parent']['fields']['summary']
+        except:
+            parent_summary = ''
+        story_point = issue['fields']['customfield_10016'] if issue['fields']['customfield_10016'] else ''
+        project_name = issue['fields']['project']['name']
+        sprint = issue['fields']['customfield_10020'][0]['name'] if issue['fields']['customfield_10020'] else ''
+        ws.append([issue_key, summary, assignee, status, story_point, sprint, parent_key, parent_summary, project_name]) 
+        
+
+
+def insert_bugs(ws, data):
+    ws.delete_rows(1,ws.max_row)
+    project_priority = {
+        "Viva Modernization Quality": "customfield_12301",
+        "Viva Modernization Pod 0": "customfield_12350",
+        "Viva Modernization Pod 1": "customfield_12351",
+        "Viva Modernization Pod 2": "customfield_12352",
+        "IMT_ET_Affinity Solutions_REST": "customfield_11549",
+        "IMT_ET_Affinity Solutions_NBC": "customfield_12356",
+        "VIVA Batch and Integrations": "customfield_12347"
+        }
+    headers = ['Issue Key', 'Summary', 'Assignee', 'Status', 'Priority', 'Project'] 
+    ws.append(headers) 
+
+
+    # Write data 
+    for issue in data: 
+        issue_key = issue['key'] 
+        summary = issue['fields']['summary'] 
+        assignee = issue['fields']['assignee']['displayName'] if issue['fields']['assignee'] else 'Unassigned' 
+        status = issue['fields']['status']['name'] 
+        project_name = issue['fields']['project']['name']
+        try:
+            priority = issue['fields'][project_priority[project_name]]['value']
+        except:
+            priority = "None"
+        ws.append([issue_key, summary, assignee, status, priority, project_name]) 
+      
+      
+
+
+def update_timestamp(wb):
+    ws = wb["Summary"]
+    ws["H1"] = datetime.datetime.now()
+    
+
+
+def refresh_pivots(wb):
+    ws = wb["Pivots"]
+    pivots = ws._pivots
+    for pivot in pivots:
+        pivot.cache.refreshOnHload = True
+    
+def write_to_excel(data, wb, worksheet_name, type): 
+    ws = wb[worksheet_name]
+    
+    match type:
+        case "epics":
+            insert_epics(ws, data)
+        case "stories":
+            insert_stories(ws, data)
+        case "bugs":
+            insert_bugs(ws, data)
+    print(f'Data written to {worksheet_name}') 
+
+
+if __name__ == '__main__': 
+    file_path = "C:\\Users\q4n5r\\OneDrive - Securian Financial\\Documents\Viva QE Metrics.xlsx"
+    wb = openpyxl.load_workbook(filename=file_path)
+    
+    
+    # Report Epics
+    filter_id = '14212' 
+    worksheet_name = 'Epics Raw' 
+    epics_data = get_jira_data(filter_id) 
+    if epics_data: 
+        write_to_excel(epics_data, wb, worksheet_name, "epics") 
+        
+        
+    # Report Stories - All
+    filter_id = '14198'
+    worksheet_name = 'Stories Raw'
+    stories_data = get_jira_data(filter_id)
+    if stories_data: 
+        write_to_excel(stories_data, wb, worksheet_name, "stories") 
+        
+    
+    # Report Stores - Active
+    filter_id = '14233'
+    worksheet_name = 'Stories Raw (Active Sprint)'
+    stories_data = get_jira_data(filter_id)
+    if stories_data: 
+        write_to_excel(stories_data, wb, worksheet_name, "stories") 
+    
+    
+    
+    # Report bugs  
+    filter_id = '14418' 
+    worksheet_name = 'Bugs Raw' 
+    bugs_data = get_jira_data(filter_id) 
+    if bugs_data: 
+        write_to_excel(bugs_data, wb, worksheet_name, "bugs") 
+    
+    refresh_pivots(wb)
+    update_timestamp(wb)
+    wb.save(filename=file_path)
+

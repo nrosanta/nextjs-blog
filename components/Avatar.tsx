@@ -24,10 +24,10 @@ export default function Avatar({
       <Image
         src={avatarImage}
         alt=""
-        sizes={large ? "6rem" : "2.25rem"}
+        sizes={large ? "16rem" : "10rem"}
         className={clsx(
-          "rounded bg-zinc-1000 object-cover dark:bg-zinc-800",
-          large ? "h-14 w-44" : "h-9 9"
+          "rounded-lg bg-zinc-1000 object-cover dark:bg-zinc-800",
+          large ? "h-14 w-44" : "h-10 w-32"
         )}
         priority
       />

@@ -40,7 +40,7 @@ export async function generateMetadata({
       authors: [article?.author?.name],
       description: article?.description,
       url: `${server}/articles/${params.slug}`,
-      siteName: "Mir Sazzat Hossain - Innovative Researcher and Skilled Mentor",
+      siteName: "TestingFly",
       images: [
         {
           url: `${server}/images/${article?.covers[0].url}`,
@@ -65,8 +65,8 @@ export async function generateMetadata({
           alt: article?.title,
         },
       ],
-      site: "@mir_sazzat",
-      creator: "@mir_sazzat",
+      site: "@testingfly",
+      creator: "@testingfly",
     },
 
     // Alternates
