@@ -70,7 +70,6 @@ export default function Header(): JSX.Element {
       }
 
       setProperty({ property: "--content-offset", value: `${downDelay}px` });
-      // setProperty({ property: "--header-position", value: "sticky" });
 
       if (isInitial.current || scrollY < downDelay) {
         setProperty({
@@ -90,7 +89,6 @@ export default function Header(): JSX.Element {
           value: `${scrollY + height}px`,
         });
         setProperty({ property: "--header-mb", value: `${-scrollY}px` });
-        // setProperty({ property: "--header-position", value: "sticky" });
       }
     }
 
@@ -162,7 +160,7 @@ export default function Header(): JSX.Element {
           <>
             <div
               ref={avatarRef as any}
-              className="order-last mt-[calc(theme(spacing.0)-theme(spacing.0))]"
+              className="order-last mt-[calc(theme(spacing.16)-theme(spacing.3))]"
             />
             <Container
               className="top-0 order-last -mb-3 pt-3"
@@ -208,7 +206,7 @@ export default function Header(): JSX.Element {
                 />
                 <DesktopNavigation
                   links={navigations}
-                  className="pointer-events-auto hidden md:block pt-0"
+                  className="pointer-events-auto hidden md:block"
                 />
               </div>
               <div className="flex justify-end md:flex-1">

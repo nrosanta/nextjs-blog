@@ -31,7 +31,9 @@ export default function ArticleCard({
             day: "numeric",
           })}
         </Card.Eyebrow>
-        <Card.Description>{article.description}</Card.Description>
+        <Card.Description>
+          {article.description}
+          </Card.Description>
         <Card.Cta>Read article</Card.Cta>
       </Card>
       <Card.Eyebrow

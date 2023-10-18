@@ -75,7 +75,7 @@ export default function ArticlePage({
   const Component = useMDXComponent(article.body.code);
   return (
     <div className="xl:relative">
-      <div className="mx-auto max-w-2xl">
+      <div className="mx-auto max-w-4xl">
         <button
           type="button"
           aria-label="Go back"
@@ -87,7 +87,7 @@ export default function ArticlePage({
 
         <article>
           <header className="flex flex-col">
-            <h1 className="mt-6 text-3xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-4xl">
+            <h1 className="mt-3 text-3xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-4xl">
               {article.title}
             </h1>
 
@@ -115,7 +115,7 @@ export default function ArticlePage({
             </time>
           </header>
 
-          <div className="mt-8 prose dark:prose-invert">
+          <div className="mt-3 prose dark:prose-invert">
             <Component components={mdxComponents as any} />
           </div>
 

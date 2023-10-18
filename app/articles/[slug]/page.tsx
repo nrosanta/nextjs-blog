@@ -186,7 +186,7 @@ export default async function Page({
   const relatedArticles = getRelatedArticles(article, articles);
 
   return (
-    <Container className="mt-16 lg:mt-32">
+    <Container className="mt-16 lg:mt-10">
       <ArticlePage
         article={article}
         previousArticle={previousArticle}
