@@ -1,3 +1,4 @@
+import Avatar from "components/Avatar";
 import { Container } from "components/Container";
 import { DownloadFileIcon } from "components/Icons";
 
@@ -46,10 +47,15 @@ function SocialLink({
 export default async function About() {
   const about = await getAbout();
   return (
-    <Container className="mt-5">
+    <Container className="mt-3">
       <div className="max-w-5xl">
-        <h1 className="text-3xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-4xl">
-          {/* {about.name} */}
+        <h1 className="text-1xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-3xl">
+        <Avatar
+                  large
+                  // className="block h-16 w-16 origin-left"
+                  style={{ transform: "var(--avatar-image-transform)" }}
+                /> 
+                {/* {about.name} */}
         </h1>
         <h2 className="text-gray-600 dark:text-gray-100 tracking-tighter mb-4 mt-1">
           {about.motto} 

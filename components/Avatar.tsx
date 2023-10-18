@@ -2,7 +2,7 @@ import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
 
-import avatarImage from "../public/images/favicon1.png";
+import avatarImage from "../public/images/favicon.png";
 
 type Props = {
   large?: boolean;
@@ -26,8 +26,8 @@ export default function Avatar({
         alt=""
         sizes={large ? "6rem" : "2.25rem"}
         className={clsx(
-          "rounded-full bg-zinc-1000 object-cover dark:bg-zinc-800",
-          large ? "h-16 w-16" : "h-9 9"
+          "rounded bg-zinc-1000 object-cover dark:bg-zinc-800",
+          large ? "h-14 w-44" : "h-9 9"
         )}
         priority
       />
