@@ -1,20 +1,21 @@
 ---
-title: "Fetch and Update Jira Data in an Excel Spreadsheet"
+title: "Fetch and Write Jira Data to an Excel Workbook"
 tags:
-  - title: Design Driven Development
-  - title: API Design Driven
+  - title: Python Jira Client
+  - title: Fetch Jira Data using Python
 categories:
   - title: Programming
-  - title: API
-  - title: Design Driven Development
+  - title: Python Client
+  - title: Jira API
+  - title: Excel
 author:
-  name: Ross
-  designation: QE Leader
+  name: testingfly
+  designation: testingfly
   url: https://testingfly.com
   avatar:
     url: user.png
-    alt: Ross
-description: "API design-driven development is an approach where the design and documentation of application programming interfaces (APIs) take precedence before implementing the rest of the software. It promotes collaboration, early validation, and reusability of APIs, making them a central building block in the development process. This approach ensures consistency, scalability, and adaptability in modern software development."
+    alt: testingfly
+description: "In this tutorial, we'll dive into Python-based Jira clients, showing you how to efficiently fetch, manipulate, and write Jira data to Excel."
 seoDescription: "Introduction to the Factory Design Pattern"
 covers:
   - url: content/poisson-distribution/poisson_cover.jpg
@@ -23,7 +24,7 @@ status: published
 publishedAt: 2023-10-16
 ---
 
-In this tutorial, we will go through a Python script that uses the Jira API to retrieve data and update an Excel spreadsheet. This script fetches Jira issues based on filter IDs and inserts them into different sheets in an Excel workbook. Additionally, it updates timestamp and refreshes pivot tables in the workbook.
+In this tutorial, we will go through a Python script that uses the Jira API to retrieve data and update an Excel spreadsheet. This script fetches Jira issues based on filter IDs and inserts them into different sheets in an Excel workbook. Additionally, it updates the timestamp in the workbook.
 
 **Requirements:**
 1. Python
@@ -80,12 +81,6 @@ Updates the timestamp in the "Summary" worksheet.
 
 - `wb`: The Excel workbook to update.
 
-### `refresh_pivots(wb)`
-
-Refreshes pivot tables in the "Pivots" worksheet.
-
-- `wb`: The Excel workbook to refresh.
-
 ### `write_to_excel(data, wb, worksheet_name, type)`
 
 Writes data to the specified Excel worksheet.
@@ -97,7 +92,7 @@ Writes data to the specified Excel worksheet.
 
 ## Step 4: Main Execution
 
-The script's main execution is within the `if __name__ == '__main__':` block. This section fetches Jira data, writes it to the appropriate worksheet, and updates the timestamp and pivot tables in the Excel workbook.
+The script's main execution is within the `if __name__ == '__main__':` block. This section fetches Jira data, writes it to the appropriate worksheet, and updates the timestamp in the Excel workbook.
 
 Replace the filter IDs with the ones you want to use and ensure that the worksheet names correspond to your Excel workbook.
 
@@ -109,7 +104,7 @@ Run the Python script to fetch Jira data and update the Excel workbook. Ensure t
 python your_script_name.py
 ```
 
-This script will fetch data from Jira and update your Excel workbook with the relevant information in separate worksheets, refresh pivot tables, and update the timestamp.
+This script will fetch data from Jira and update your Excel workbook with the relevant information in separate worksheets and update the timestamp.
 
 Your Excel file will be updated with the latest Jira data as per your defined filters and worksheet names.
 
@@ -228,13 +223,6 @@ def update_timestamp(wb):
     ws = wb["Summary"]
     ws["H1"] = datetime.datetime.now()
     
-
-
-def refresh_pivots(wb):
-    ws = wb["Pivots"]
-    pivots = ws._pivots
-    for pivot in pivots:
-        pivot.cache.refreshOnHload = True
     
 def write_to_excel(data, wb, worksheet_name, type): 
     ws = wb[worksheet_name]
@@ -286,7 +274,6 @@ if __name__ == '__main__':
     if bugs_data: 
         write_to_excel(bugs_data, wb, worksheet_name, "bugs") 
     
-    refresh_pivots(wb)
     update_timestamp(wb)
     wb.save(filename=file_path)
 

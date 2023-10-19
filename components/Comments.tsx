@@ -11,20 +11,18 @@ export default function Comments(): JSX.Element {
         Comments
       </h2>
       <p className="mt-2 text-base text-zinc-600 dark:text-zinc-400 mb-4">
-        Do you have a problem, want to share feedback, or discuss further ideas?
-        Feel free to leave a comment here! Please stick to English. This comment
-        thread directly maps to a{" "}
+      Would you like to share your feedback or engage in a discussion about more ideas? Please don't hesitate to drop a comment {" "}
         <Link
-          href="https://github.com/mirsazzathossain/mirsazzathossain.me/discussions/"
+          href="https://github.com/testingfly/nextjs-blog/discussions"
           target="blank"
         >
-          <em className="text-teal-500">discussion on GitHub</em>
+          <em className="text-teal-500">here</em>
         </Link>
-        , so you can also comment there if you prefer.
+        
       </p>
       <Giscus
         id="comments"
-        repo="mirsazzathossain/mirsazzathossain.me"
+        repo="testingfly/nextjs-blog"
         repoId="R_kgDOH7B9og"
         category="General"
         categoryId="DIC_kwDOH7B9os4CTPDr"
