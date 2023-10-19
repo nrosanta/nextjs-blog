@@ -1,0 +1,174 @@
+---
+title: "Unit Testing Best Practices"
+tags:
+  - title: Unit Testing
+  - title: Programming
+categories:
+  - title: Unit Testing
+  - title: Programming
+  - title: QE
+author:
+  name: Ross
+  designation: QE Leader
+  url: https://testingfly.com
+  avatar:
+    url: user.png
+    alt: Ross
+description: "Unit testing is a crucial aspect of software development that ensures your code functions as expected and is free from bugs. To create effective unit tests, it's essential to follow best practices. In this tutorial, we'll cover various best practices for writing unit tests."
+seoDescription: "Unit Testing Best Practices"
+covers:
+  - url: content/poisson-distribution/poisson_cover.jpg
+    alt: The Poisson Distribution Cover
+status: published
+publishedAt: 2023-10-16
+---
+
+
+Unit testing is a crucial aspect of software development that ensures your code functions as expected and is free from bugs. To create effective unit tests, it's essential to follow best practices. In this tutorial, we'll cover various best practices for writing unit tests.
+
+## 1. Naming your tests
+
+The name of your test should consist of three parts:
+
+1. The name of the method being tested.
+2. The scenario under which it's being tested.
+3. The expected behavior when the scenario is invoked.
+
+### Why?
+
+Naming standards are important because they explicitly express the intent of the test.
+
+**Example:**
+
+```javascript
+import { deposit } from './bank-account';
+
+describe('deposit()', () => {
+ const bankAccount = {};
+
+ beforeEach(() => {
+   bankAccount.balance = 1000;
+ });
+
+ it('should increase the balance when making a deposit of $100', () => {
+   const amount = 100;
+   const balance = deposit({ amount, bankAccount });
+   expect(balance).toBe(1100);
+ });
+}
+```
+
+## 2. Arranging your tests (3 As)
+
+**Arrange, Act, Assert** is a common pattern when unit testing, consisting of three main actions:
+
+1. **Arrange:** Prepare and set up your objects.
+2. **Act:** Perform an action.
+3. **Assert:** Verify that the result matches the expected outcome.
+
+### Why?
+
+This pattern separates what's being tested from the arrangement and assertion steps, reducing the risk of intermixing assertions with "Act" code.
+
+**Example:**
+
+```javascript
+it('should increase the balance when making a deposit of $100', () => {
+  // Arrange
+  const amount = 100;
+
+  // Act
+  const balance = deposit({ amount, bankAccount });
+
+  // Assert
+  expect(balance).toBe(1100);
+});
+```
+
+## 3. Write minimally passing tests
+
+Unit tests should use the simplest possible input to verify the behavior being tested.
+
+### Why?
+
+Minimally passing tests are more resilient to code changes and focus on behavior rather than implementation details.
+
+## 4. Avoid magic strings
+
+Unit tests should not contain "magic strings." Use constants to make your tests more explicit.
+
+### Why?
+
+Avoiding magic strings improves test readability and makes your intentions clear.
+
+## 5. Avoid logic in tests
+
+Avoid using manual string concatenation and logical conditions like `if`, `while`, `for`, or `switch` in your unit tests.
+
+### Why?
+
+This reduces the chance of introducing bugs in your tests and helps you focus on the end result, not implementation details.
+
+## 6. Prefer helper methods to setup and teardown
+
+Instead of relying on Setup and Teardown attributes, use helper methods to set up similar objects or states for your tests.
+
+### Why?
+
+Using helper methods makes tests more readable, prevents over/under-setup, and avoids unwanted dependencies between tests.
+
+## 7. Avoid multiple acts and/or multiple asserts
+
+Each test should have a single Act and single Assert. Create separate tests for each Act or use parameterized tests for multiple inputs.
+
+### Why?
+
+Multiple Acts or Asserts can obscure the cause of test failures and make it challenging to understand why tests failed.
+
+**Example:**
+
+```javascript
+describe('Testing add function', () => {
+ it.each([
+   [0, 0, 0],
+   [-1, -2, -3],
+   [1, 2, 3],
+   [99999, 99999, 199998],
+ ])(
+ 'given %i, %i should return %i',
+ (x: number, y: number, result: number) => {
+   expect(add(x, y)).toEqual(result);
+ });
+}
+```
+
+## 8. Validate private methods by unit testing public methods
+
+In most cases, there's no need to test private methods. Focus on testing the end result of the public methods that call them.
+
+## 9. Stub static references
+
+Ensure your unit tests have full control over the system under test, especially when dealing with static references like `DateTime.Now`.
+
+## 10. Use Meaningful locators for interactive elements
+
+When writing tests for user interfaces, use meaningful locators like data-test-id attributes to improve test reliability.
+
+### Why?
+
+Test reliability depends on the locators used for actions and verifications. This approach reduces test brittleness.
+
+**Example:**
+
+```javascript
+<button data-test-id="directions">Itinéraire</button>
+
+await page.locator('css=[data-test-id=directions]').click();
+```
+
+## 11. Angular Testing Library Best Practices
+
+For Angular-specific unit testing best practices, check out [this guide](https://timdeschryver.dev/blog/good-testing-practices-with-angular-testing-library#the-angular-testing-library).
+
+By following these best practices, you can create effective and maintainable unit tests that ensure your code behaves as expected and remains bug-free.
+```
