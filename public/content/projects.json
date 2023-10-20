@@ -7,8 +7,21 @@
       "label": "API Testing Framework"
     },
     "logo": {
-      "src": "favicon1.png",
+      "src": "testingfly-api-test.png",
+      "alt": "Test"
+    }
+  },
+  {
+    "title": "Project Metrics Dashboard",
+    "description": "Create an insightful metrics dashboard using the Python Dash framework to display Jira metrics, offering an overview of project health, performance, and more. This versatile tool can be applied to any project utilizing Jira for enhanced project management and decision-making.",
+    "link": {
+      "href": "https://github.com/testingfly/testingfly-test-framework/blob/master/README.md",
+      "label": "Python Dash Metrics"
+    },
+    "logo": {
+      "src": "dash.png",
       "alt": "Test"
     }
   }
+
 ]

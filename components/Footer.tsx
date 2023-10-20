@@ -5,7 +5,7 @@ import SpotifyPlayingNow from "./SpotifyPlayingNow";
 const navigations = [
   { href: "/articles", label: "Articles" },
   { href: "/projects", label: "Projects" },
-  { href: "/courses", label: "Courses" },
+  // { href: "/courses", label: "Courses" },    
   { href: "/snippets", label: "Snippets" },
   { href: "/resources", label: "Resources" },
 ];
@@ -34,7 +34,7 @@ export default function Footer(): JSX.Element {
         <div className="border-t border-zinc-100 pt-8 pb-16 dark:border-zinc-700/40">
           <Container>
             {/* <SpotifyPlayingNow /> */}
-            <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
+            <div className="flex flex-col items-center justify-between gap-6 sm:flex-row md:justify-center">
               <div className="flex gap-6 text-sm font-medium text-zinc-800 dark:text-zinc-200">
                 {navigations.map((navigation) => (
                   <NavLink key={navigation.href} href={navigation.href}>
