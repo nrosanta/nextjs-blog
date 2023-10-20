@@ -22,16 +22,6 @@ export default function SocialShare({
   return (
     <div className="flex justify-center space-x-2">
       <div>
-        <FacebookShareButton
-          url={url}
-          quote={article.title}
-          hashtag={(article.tags as Tag[])[0].title}
-          blankTarget={true}
-        >
-          <FacebookIcon size={32} round={true} />
-        </FacebookShareButton>
-      </div>
-      <div>
         <TwitterShareButton
           url={url}
           title={article.title}
@@ -52,11 +42,6 @@ export default function SocialShare({
         <LinkedinShareButton url={url} blankTarget={true}>
           <LinkedinIcon size={32} round={true} />
         </LinkedinShareButton>
-      </div>
-      <div>
-        <WhatsappShareButton url={url} title={article.title} blankTarget={true}>
-          <WhatsappIcon size={32} round={true} />
-        </WhatsappShareButton>
       </div>
     </div>
   );

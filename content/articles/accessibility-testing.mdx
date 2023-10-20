@@ -1,0 +1,141 @@
+---
+title: "Accessibility Testing"
+tags:
+  - title: Accessibility Testing
+  - title: Programming
+  - title: WCAG
+categories:
+  - title: UI Testing
+  - title: Programming
+  - title: QE
+author:
+  name: Testingfly
+  designation: Testinfly
+  url: https://testingfly.com
+  avatar:
+    url: user.png
+    alt: Testingfly
+description: "This guide provides an overview of accessibility testing, focusing on WCAG (Web Content Accessibility Guidelines) compliance, automated testing using the Axe-Core library, and severity levels of issues identified during testing."
+seoDescription: "Unit Testing Best Practices"
+covers:
+  - url: content/poisson-distribution/poisson_cover.jpg
+    alt: The Poisson Distribution Cover
+status: published
+publishedAt: 2021-4-21
+---
+
+This guide provides an overview of accessibility testing, focusing on WCAG (Web Content Accessibility Guidelines) compliance, automated testing using the Axe-Core library, and severity levels of issues identified during testing.
+
+## Table of Contents
+1. [WCAG Levels](#wcag-levels)
+2. [WCAG 2.0 Level A & AA Rules](#wcag-rules)
+3. [Test Scope](#test-scope)
+4. [Out of Scope](#out-of-scope)
+5. [Automated Test](#automated-test)
+6. [Axe-Core Report Severity Levels](#severity-levels)
+7. [Useful Links](#useful-links)
+8. [Axe-Core Supported Browsers](#supported-browsers)
+9. [Automated Accessibility Testing with Axe-Playwright](#example)
+
+## 1. WCAG Levels <a name="wcag-levels"></a>
+
+WCAG divides accessibility guidelines into three levels of conformance:
+
+- **WCAG Level A:** The minimum level of conformance.
+- **WCAG Level AA:** The target conformance level, often required by legal standards like ADA (Americans with Disabilities Act).
+- **WCAG Level AAA:** The highest level of conformance, meeting all three levels' success criteria.
+
+Compliance with Level AA implies compliance with Level A.
+
+## 2. WCAG 2.0 Level A & AA Rules <a name="wcag-rules"></a>
+
+For a comprehensive list of WCAG 2.0 Level A and AA rules, refer to [this resource](https://github.com/dequelabs/axe-core/blob/develop/doc/rule-descriptions.md#wcag-20-level-a--aa-rules).
+
+## 3. Test Scope <a name="test-scope"></a>
+
+Your testing scope should align with WCAG Level AA compliance. According to WCAG, adherence to the following four main principles is crucial:
+
+- **Operable:** Ensure users can navigate your website using a keyboard in addition to a mouse.
+- **Perceivable:** Make information and content accessible through audio descriptions, transcriptions, and closed captions.
+- **Robust:** Your site should be compatible with screen readers and adaptable to users' changing needs.
+- **Understandable:** Ensure text is readable, expands abbreviations, and uses formats that don't require advanced reading abilities.
+
+## 4. Out of Scope <a name="out-of-scope"></a>
+
+Accessibility testing should not include testing with assistive technologies that real users use. For a more comprehensive understanding of users with disabilities, refer to [WebAIM's survey results](https://webaim.org/projects/screenreadersurvey7/).
+
+## 5. Automated Test <a name="automated-test"></a>
+
+Automated accessibility testing is crucial for maintaining compliance. In the case of MAP, it will be automated using the Axe-Core library within the End-to-End (E2E) automation framework using Playwright. Configure Axe-Core to ensure MAP complies with WCAG AA rules for ADA compliance. Refer to [Axe-Core on GitHub](https://github.com/dequelabs/axe-core) for detailed information.
+
+## 6. Axe-Core Report Severity Levels <a name="severity-levels"></a>
+
+During automated testing with Axe-Core, issues are categorized into four severity levels:
+
+- **Minor:** Considered nuisances or annoyances. Fix promptly if it takes minimal effort; otherwise, prioritize appropriately.
+- **Moderate:** Result in some barriers but don't prevent access to fundamental features. Prioritize in the release if no higher-priority issues exist.
+- **Serious:** Result in significant barriers and frustration for people with disabilities. Remediation should be a priority.
+- **Critical:** Block content for people with disabilities, putting your organization at risk. Prioritize immediate remediation.
+
+## 7. Useful Links <a name="useful-links"></a>
+
+For further resources on accessibility testing and Axe-Core:
+
+- [Axe-Core on npm](https://www.npmjs.com/package/axe-core)
+- [Axe-Playwright on GitHub](https://github.com/abhinaba-ghosh/axe-playwright)
+- [Deque's Axe-Core Documentation](https://www.deque.com/axe/core-documentation/api-documentation/)
+
+## 8. Axe-Core Supported Browsers <a name="supported-browsers"></a>
+
+Axe-Core, used for automated accessibility testing, supports the following browsers:
+
+- Microsoft Edge v40 and above
+- Google Chrome v42 and above
+- Mozilla Firefox v38 and above
+- Apple Safari v7 and above
+
+Ensuring accessibility in your digital content is essential to make it inclusive and ADA-compliant. By following these guidelines and leveraging Axe-Core for automated testing, you can proactively address accessibility issues and provide a more accessible online experience for all users.
+
+
+## 9. Automated Accessibility Testing with Axe-Playwright <a name="example"></a>
+
+In this example, we will demonstrate how to perform automated accessibility testing using Axe-Playwright within the Playwright framework on the Wikipedia website. We will use TypeScript for scripting this test.
+
+```typescript
+import { Page, BrowserContext, devices } from 'playwright';
+import { setupPlaywright } from 'axe-playwright';
+
+// Define the URL of the Wikipedia website you want to test.
+const wikipediaURL = 'https://en.wikipedia.org';
+
+// Define the Playwright device to emulate a desktop view.
+const device = devices['Desktop 1920x1080'];
+
+(async () => {
+  // Launch a browser instance and create a browser context with the Playwright device configuration.
+  const browser = await playwright.chromium.launch();
+  const context: BrowserContext = await browser.newContext({
+    ...device,
+  });
+
+  // Create a new page within the context and navigate to the Wikipedia website.
+  const page: Page = await context.newPage();
+  await page.goto(wikipediaURL);
+
+  // Inject Axe-Core into the page for accessibility testing.
+  const { configureAxe, toHaveNoViolations } = setupPlaywright();
+  await configureAxe(page);
+
+  // Run an accessibility scan on the page and check for violations.
+  await page.evaluate(() => axe.run());
+  const results = await page.waitForFunction(toHaveNoViolations, { timeout: 5000 });
+
+  // Output the accessibility results to the console.
+  console.log('Accessibility test results:', results);
+
+  // Close the browser instance.
+  await browser.close();
+})();
+```
+
+It launches a browser, navigates to the Wikipedia site, injects Axe-Core for accessibility testing, scans the page, and checks for violations. The results are then logged to the console. Ensure you have Playwright and Axe-Playwright installed in your project to run this code.
