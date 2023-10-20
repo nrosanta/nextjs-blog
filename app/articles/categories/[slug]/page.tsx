@@ -36,12 +36,12 @@ export async function generateMetadata({
     } available on this website.`,
     openGraph: {
       type: "website",
-      title: `Articles categorized as ${params.slug} - Mir Sazzat Hossain`,
+      title: `Articles categorized as ${params.slug} - Testingfly`,
       description: `This page contains all the articles ${
         params?.slug ? `categorized as ${params.slug}` : ""
       } available on this website.`,
       url: `${server}/articles/categories/${params.slug}`,
-      siteName: "Mir Sazzat Hossain - Innovative Researcher and Skilled Mentor",
+      siteName: "Testingfly - Innovative Researcher and Skilled Mentor",
       images: [
         {
           url: `${server}/images/cover.jpg`,
@@ -54,9 +54,9 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      site: "@mir_sazzat",
-      creator: "@mir_sazzat",
-      title: `Articles categorized as ${params.slug} - Mir Sazzat Hossain`,
+      site: "@testingfly",
+      creator: "@testingfly",
+      title: `Articles categorized as ${params.slug} - Testingfly`,
       description: `This page contains all the articles ${
         params?.slug ? `categorized as ${params.slug}` : ""
       } available on this website.`,

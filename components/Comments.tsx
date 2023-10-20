@@ -23,10 +23,10 @@ export default function Comments(): JSX.Element {
       <Giscus
         id="comments"
         repo="testingfly/nextjs-blog"
-        repoId="R_kgDOH7B9og"
+        repoId="R_kgDOKgx4UQ"
         category="General"
-        categoryId="DIC_kwDOH7B9os4CTPDr"
-        mapping="pathname"
+        categoryId="DIC_kwDOKgx4Uc4CaQSD"
+        mapping="title"
         data-strict="0"
         reactionsEnabled="1"
         emitMetadata="0"
@@ -46,7 +46,7 @@ export default function Comments(): JSX.Element {
         </Link>{" "}
         application, you can also comment directly{" "}
         <Link
-          href="https://github.com/mirsazzathossain/mirsazzathossain.me/discussions?discussions"
+          href="https://github.com/testingfly/nextjs-blog/discussions"
           target="blank"
         >
           <em className="text-teal-500">on GitHub</em>

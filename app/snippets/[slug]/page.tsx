@@ -29,11 +29,11 @@ export async function generateMetadata({
       url: `${server}/snippets/${snippet?.slug}`,
       type: "website",
       site_name:
-        "Mir Sazzat Hossain - Innovative Researcher and Skilled Mentor",
+        "Testingfly - Innovative Researcher and Skilled Mentor",
       images: [
         {
           url: `${server}/images/og-image.png`,
-          alt: "Mir Sazzat Hossain",
+          alt: "Testingfly",
           width: 1200,
           height: 630,
         },
@@ -42,14 +42,14 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      site: "@mir_sazzat",
-      creator: "@mir_sazzat",
+      site: "@testingfly",
+      creator: "@testingfly",
       title: snippet?.title,
       description: snippet?.description,
       images: [
         {
           url: `${server}/images/og-image.png`,
-          alt: "Mir Sazzat Hossain",
+          alt: "Testingfly",
           width: 1200,
           height: 630,
         },

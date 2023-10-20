@@ -10,16 +10,16 @@ export const metadata: Metadata = {
   description:
     "",
   openGraph: {
-    title: "Projects - Mir Sazzat Hossain",
+    title: "Testingfly",
     description:
       "",
     url: `${server}/projects`,
     type: "website",
-    siteName: "Test",
+    siteName: "Projects",
     images: [
       {
         url: `${server}/images/og-image.png`,
-        alt: "Mir Sazzat Hossain",
+        alt: "Testingfly",
         width: 1200,
         height: 630,
       },
@@ -28,15 +28,15 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    site: "@mir_sazzat",
-    creator: "@mir_sazzat",
-    title: "Projects - Mir Sazzat Hossain",
+    site: "@hellotestingfly",
+    creator: "testingfly",
+    title: "Projects - Testinfly",
     description:
       "",
     images: [
       {
         url: `${server}/images/og-image.png`,
-        alt: "Mir Sazzat Hossain",
+        alt: "n",
         width: 1200,
         height: 630,
       },
@@ -53,8 +53,8 @@ export const metadata: Metadata = {
 export default function Projects(): JSX.Element {
   return (
     <SimpleLayout
-      title="Things I’ve made trying to put my dent in the universe."
-      intro="I've tinkered with countless little projects over the years, but these are the ones that make me do a little happy dance. A bunch of them are open-source, so if one catches your eye, dive into the code and sprinkle your genius on it if you've got ideas to make it even snazzier! 🚀"
+      title="Side Projects"
+      intro="These projects are personal in nature, and I haven't consistently made the effort to publish them. However, I'm willing to share some that could be beneficial to others."
     >
       <div className="mt-16 sm:mt-20">
         <Suspense fallback={<ProjectsPlaceholder />}>

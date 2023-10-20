@@ -1,14 +1,14 @@
 [
   {
-    "title": "Restaurant Order Prediction Using USTGCN",
-    "description": "Real-time food order prediction using Unified Spatio-Temporal Graph Convolutional Network (USTGCN). 🍴🚀",
+    "title": "Testingfly API Testing Framework",
+    "description": "This Java-based API testing framework is designed to streamline the process of testing APIs while leveraging the power of Excel as a data source. With a focus on simplicity and efficiency, this framework is data-driven, making it easy to set up and run tests quickly.",
     "link": {
-      "href": "https://github.com/mirsazzathossain/Restaurant-Order-Prediction-USTGCN",
-      "label": "Restaurant-Order-Prediction-USTGCN"
+      "href": "https://github.com/testingfly/testingfly-test-framework/blob/master/README.md",
+      "label": "API Testing Framework"
     },
     "logo": {
-      "src": "project-logos/burger.jpg",
-      "alt": "Burger"
+      "src": "favicon1.png",
+      "alt": "Test"
     }
   }
 ]

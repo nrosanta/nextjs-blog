@@ -27,6 +27,7 @@ export default async function ListProjects(): Promise<JSX.Element> {
     <ul
       role="list"
       className="grid grid-cols-1 gap-x-12 gap-y-16 sm:grid-cols-2 lg:grid-cols-3"
+      // className="grid gap-4 grid-cols-1 sm:grid-cols-2 my-2 w-full mt-6 max-w-3xl"
     >
       {projects.map((project) => (
         <Card as="li" key={project.title}>
@@ -36,7 +37,7 @@ export default async function ListProjects(): Promise<JSX.Element> {
               alt={project.logo.alt}
               height={32}
               width={32}
-              className="h-8 w-8"
+              className="rounded-full h-11 w-11"
               unoptimized
             />
           </div>
