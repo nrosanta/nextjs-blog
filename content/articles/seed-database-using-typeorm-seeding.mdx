@@ -1,0 +1,218 @@
+---
+title: "How to Seed Your Database using TypeORM Seeding"
+tags:
+  - title: Data Seeding
+  - title: TypeORM
+categories:
+  - title: Testing
+  - title: Test Data
+  - title: Data Seeding
+author:
+  name: Testingfly
+  designation: Testinfly
+  url: https://testingfly.com
+  avatar:
+    url: user.png
+    alt: Testingfly
+description: "Seeding your database is an essential step in the application development process. It not only facilitates prototyping but also streamlines the transition to a production environment. Whether you're in the early stages of ideation or have a fully-fledged application, database seeding can be a game-changer. In this tutorial, we'll walk you through how to seed your database using TypeORM and TypeORM Seeding, focusing on creating random data and establishing relationships."
+seoDescription: "How to Seed Your Database using TypeORM Seeding"
+covers:
+  - url: content/poisson-distribution/poisson_cover.jpg
+    alt: The Poisson Distribution Cover
+status: published
+publishedAt: 2023-10-21
+---
+
+Seeding your database is an essential step in the application development process. It not only facilitates prototyping but also streamlines the transition to a production environment. Whether you're in the early stages of ideation or have a fully-fledged application, database seeding can be a game-changer. In this tutorial, we'll walk you through how to seed your database using TypeORM and TypeORM Seeding, focusing on creating random data and establishing relationships.
+
+## Setting Up the Project
+
+First, let's set up your project. In the root directory of your project (where your `package.json` is located), install the necessary dependencies:
+
+```bash
+npm install typeorm-seeding faker --save
+npm install @types/faker --save-dev
+```
+
+## Understanding Factories
+
+Before we dive into seeding, let's understand the concept of factories. Factories are essential for generating data to populate your application. For each entity in your application, you define a factory. Each factory is responsible for generating data corresponding to the properties of the entity.
+
+For instance, if you have the following entities:
+
+```typescript
+// @/src/db/entities/user.ts
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  BaseEntity,
+} from "typeorm";
+import { Post } from "./post";
+
+@Entity()
+export class User extends BaseEntity {
+  @PrimaryGeneratedColumn()
+  id!: number;
+
+  @Column()
+  name!: string;
+
+  @OneToMany(() => Post, (post) => post.user)
+  posts?: Post[];
+}
+
+// @/src/db/entities/post.ts
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  BaseEntity,
+} from "typeorm";
+import { User } from "./user";
+
+@Entity()
+export class Post extends BaseEntity {
+  @PrimaryGeneratedColumn()
+  id!: number;
+
+  @Column()
+  title!: string;
+
+  @Column()
+  description!: string;
+
+  @Column({ type: "boolean", default: false })
+  isPublished!: boolean;
+
+  @ManyToOne(() => User, (user) => user.posts)
+  user!: User;
+}
+```
+
+For the `User` entity, you might define a factory like this:
+
+```typescript
+// @/src/db/seeding/factories/user.factory.ts
+import * as Faker from "faker";
+import { define } from "typeorm-seeding";
+import { User } from "../../entities";
+
+define(User, (faker: typeof Faker) => {
+  const user = new User();
+  const firstName = faker.name.firstName();
+  const lastName = faker.name.lastName();
+  user.name = `${firstName} ${lastName}`;
+  return user;
+});
+```
+
+And for the `Post` entity:
+
+```typescript
+// @/src/db/seeding/factories/post.factory.ts
+import * as Faker from "faker";
+import { define } from "typeorm-seeding";
+import { Post } from "../../entities";
+
+define(Post, (faker: typeof Faker) => {
+  const post = new Post();
+  post.title = faker.lorem.words(8);
+  post.description = faker.lorem.paragraph(6);
+  post.isPublished = faker.random.boolean();
+  return post;
+});
+```
+
+With these factories defined, you can generate random data for your entities.
+
+## Creating a Seeder
+
+Now, let's create a seeder, which is responsible for executing the database seeding. The seeder class name should match the name of the seed class (not the filename). Here's a basic structure for a seeder:
+
+```typescript
+// @/src/db/seeding/seeds/initialSeed.ts
+import { Factory, Seeder } from "typeorm-seeding";
+import { Connection } from "typeorm";
+
+export default class InitialDatabaseSeed implements Seeder {
+  public async run(factory: Factory, connection: Connection): Promise<void> {
+    // ...
+  }
+}
+```
+
+Import the entities you want to seed, like so:
+
+```typescript
+import { Factory, Seeder } from "typeorm-seeding";
+import { Connection } from "typeorm";
+import { User, Post } from "../../entities";
+
+export default class InitialDatabaseSeed implements Seeder {
+  public async run(factory: Factory, connection: Connection): Promise<void> {
+    // ...
+  }
+}
+```
+
+## Seeding the Database
+
+Now, let's seed the database. First, create users and specify how many you want to insert:
+
+```typescript
+const users = await factory(User)().createMany(15);
+```
+
+Next, generate articles. This time, we'll also associate each article with a random user:
+
+```typescript
+await factory(Post)()
+  .map(async (post) => {
+    post.user = users[Math.floor(Math.random() * users.length)];
+    return post;
+  })
+  .createMany(100);
+```
+
+## Configuring TypeORM
+
+To ensure TypeORM knows where to find your factories and seeders, update your `ormconfig.ts` file:
+
+```javascript
+// @/ormconfig.ts
+import { User, Post } from "./src/db/entities";
+
+export default {
+  name: "default",
+  type: "sqlite",
+  database: "src/db/dev.db",
+  entities: [User, Post],
+  synchronize: true,
+  logging: false,
+  seeds: ["src/db/seeding/seeds/**/*{.ts,.js}"],
+  factories: ["src/db/seeding/factories/**/*{.ts,.js}"],
+};
+```
+
+## Seeding Your Database
+
+Finally, add a script to your `package.json` to run the seeding process:
+
+```json
+{
+  "scripts": {
+    "db:seed": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed"
+  }
+}
+```
+
+Make sure your API is running, and execute the following command to seed your database:
+
+```bash
+npm run db:seed
+```
+
+And that's it! Your database is now populated with random data. This is a powerful way to test your application and ensure it's ready for production. Happy coding!
