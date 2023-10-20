@@ -11,7 +11,7 @@ export default function Comments(): JSX.Element {
         Comments
       </h2>
       <p className="mt-2 text-base text-zinc-600 dark:text-zinc-400 mb-4">
-      Would you like to share your feedback or engage in a discussion about more ideas? Please don't hesitate to drop a comment {" "}
+      Would you like to share your feedback or engage in a discussion about more ideas? Please don&apos;t hesitate to drop a comment {" "}
         <Link
           href="https://github.com/testingfly/nextjs-blog/discussions"
           target="blank"
