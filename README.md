@@ -1,6 +1,6 @@
 ![Tech Stack](public/images/msh-nextjs.png)
 
-## Installation
+## Installation 
 
 Install the dependencies by running the following command.
 
