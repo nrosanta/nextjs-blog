@@ -3,7 +3,7 @@ import { Feed } from "feed";
 import fs from "fs";
 
 export default async function generateRss(): Promise<void> {
-  const site_url = `${process.env.SITE_URL || "https://testingfly.me"}`;
+  const site_url = `${process.env.SITE_URL || "https://testingfly.com"}`;
 
   const articles = await allArticles;
 
@@ -15,8 +15,8 @@ export default async function generateRss(): Promise<void> {
 
   const author = {
     name: "Testingfly",
-    email: "testingfly@gmail.com",
-    link: "https://testingfly.me",
+    email: "hello.testingfly@gmail.com",
+    link: "https://testingfly.com",
   };
 
   const feedOptions = {

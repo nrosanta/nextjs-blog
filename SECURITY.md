@@ -4,7 +4,7 @@
 
 **Please do not report security vulnerabilities through public GitHub issues.**
 
-Instead, please send an email to [mirsazathossain@gmail.com](mailto:mirsazathossain@gmail.com) and include the word "SECURITY" in the subject line. You should receive a response within 24 hours. If for some reason you do not, please follow up via email to ensure we received your original message.
+Instead, please send an email to [hello.testingfly@gmail.com](mailto:hello.testingfly@gmail.com) and include the word "SECURITY" in the subject line. You should receive a response within 24 hours. If for some reason you do not, please follow up via email to ensure we received your original message.
 
 Please provide the following information:
 
