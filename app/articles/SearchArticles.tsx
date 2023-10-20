@@ -27,16 +27,24 @@ export default function SearchArticles({
   }
 
   const page = searchParams.get("page")
-    ? parseInt(searchParams.get("page"))
+    ? parseInt(searchParams.get("page") as string)
     : 1;
-  const articlesPerPage = 5;
   const totalArticles = articles.length;
-  const startIndex = (page - 1) * articlesPerPage;
+  const articlesPerPage = 5
+  let startIndex = (page - 1) * articlesPerPage;
   let endIndex = page * articlesPerPage;
   if (endIndex > totalArticles) {
     endIndex = totalArticles;
   }
-  const currentArticles = articles.slice(startIndex, endIndex);
+
+  
+  if (totalArticles < 5) {
+    startIndex = 0;
+  }
+
+  var currentArticles = articles.slice(startIndex, endIndex);
+
+  
 
   return (
     <>
@@ -48,7 +56,6 @@ export default function SearchArticles({
           placeholder="Search articles"
           className="block w-full px-4 py-2 text-gray-900 bg-white border border-gray-200 rounded-md dark:border-gray-700 focus:ring-blue-500 focus:border-blue-500 dark:bg-zinc-800/90 dark:text-zinc-400"
         />
-
         <MagnifyingGlassIcon className="absolute w-5 h-5 text-gray-400 right-3 top-3 dark:text-gray-300" />
       </div>
       <div className="md:border-l md:border-zinc-100 md:pl-6 md:dark:border-zinc-700/40">
@@ -72,6 +79,7 @@ export default function SearchArticles({
           </div>
         </div>
       )}
+
       {totalArticles !== 0 && (
         <div className="mt-16 grid justify-items-center max-w-3xl">
           <Pagination totalArticles={totalArticles} />

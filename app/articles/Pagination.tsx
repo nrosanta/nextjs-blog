@@ -14,9 +14,8 @@ export default function Pagination({
 
   const totalPages = Math.ceil(totalArticles / 5);
   const page = searchParams.get("page")
-    ? parseInt(searchParams.get("page"))
+    ? parseInt(searchParams.get("page") as string)
     : 1;
-
   return (
     <ReactPaginate
       containerClassName={"inline-flex -space-x-px"}
