@@ -9,7 +9,6 @@ export default withContentlayer({
     experimental: {
         newNextLinkBehavior: true,
         scrollRestoration: true,
-        appDir: true,
         mdxRs: false,
     },
     typescript: {
