@@ -44,7 +44,7 @@ export default function Pagination({
       disabledLinkClassName={
         "cursor-not-allowed opacity-50 pointer-events-none"
       }
-      
+
       onPageChange={(data) => {
         const selected = data.selected;
         const page = selected + 1;

@@ -5,7 +5,7 @@ export default withContentlayer({
         domains: ['images.unsplash.com', 'cdn.buymeacoffee.com'],
     },
     reactStrictMode: true,
-    swcMinify: true,
+    swcMinify: false,
     experimental: {
         newNextLinkBehavior: true,
         scrollRestoration: true,
