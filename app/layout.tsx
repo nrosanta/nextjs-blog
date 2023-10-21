@@ -8,8 +8,8 @@ import ClientThemeProvider from "./theme-provider";
 
 export const metadata: Metadata = {
   title: {
-    default: "Home",
-    template: "%s - Ross Meitei",
+    default: "Testingfly",
+    template: "%s - Testingfly",
   },
   description:
     "Blog about QE stuff.",
@@ -24,31 +24,31 @@ export const metadata: Metadata = {
   ],
   authors: [
     {
-      name: "Ross Meitei",
+      name: "Testingfly",
       url: `${server}`,
     },
   ],
   themeColor: "#ffffff",
   colorScheme: "light",
-  creator: "Ross Meitei",
-  publisher: "Ross Meitei",
+  creator: "Testingfly",
+  publisher: "Testingfly",
   formatDetection: {
     telephone: true,
     address: true,
     email: true,
   },
   openGraph: {
-    title: "Ross Meitei - QE Leader and Skilled Mentor",
+    title: "Testingfly",
     description:
-      "Ross Meitei is a QE leader.",
+      "Testingfly",
     url: `${server}`,
-    siteName: "Ross Meitei - QE Leader and Skilled Mentor",
+    siteName: "Testingfly - Blog about QE stuff.",
     images: [
       {
         url: `${server}/images/favicon.png`,
         width: 1200,
         height: 630,
-        alt: "Ross Meitei - Innovative Researcher and Skilled Mentor",
+        alt: "Testingfly - Blog about QE stuff.",
       },
     ],
     locale: "en_US",
