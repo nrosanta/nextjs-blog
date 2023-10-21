@@ -22,6 +22,10 @@ export default function Pagination({
       previousLabel={"Previous"}
       nextLabel={"Next"}
       breakLabel={"..."}
+      initialPage={page - 1}
+      pageCount={totalPages}
+      // marginPagesDisplayed={2}
+      pageRangeDisplayed={5}
       breakLinkClassName={
         "px-3 py-2 ml-0 leading-tight text-zinc-800 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:text-zinc-200 dark:hover:bg-gray-700 dark:hover:text-white"
       }
@@ -40,10 +44,7 @@ export default function Pagination({
       disabledLinkClassName={
         "cursor-not-allowed opacity-50 pointer-events-none"
       }
-      initialPage={page - 1}
-      pageCount={totalPages}
-      marginPagesDisplayed={2}
-      pageRangeDisplayed={5}
+      
       onPageChange={(data) => {
         const selected = data.selected;
         const page = selected + 1;
