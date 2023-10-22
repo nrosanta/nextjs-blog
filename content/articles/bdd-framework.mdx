@@ -1,12 +1,12 @@
 ---
 title: "Cucumber BDD Framework with Java for Test Automation"
 tags:
-  - title: Factory Design Pattern
-  - title: Design Pattern
+  - title: BDD Test Automation
+  - title: Cucumber BDD
 categories:
   - title: Programming
-  - title: Java
-  - title: Design Pattern
+  - title: BDD
+  - title: Testing
 author:
   name: Testingfly
   designation: Testingfly
@@ -16,151 +16,84 @@ author:
     alt: Testingfly
 description: "Behavior-Driven Development (BDD) with Cucumber involves using natural language specifications to guide software testing and development for improved collaboration and clarity."
 seoDescription: "Introduction to the Factory Design Pattern"
+covers:
+  - url: content/poisson-distribution/poisson_cover.jpg
+    alt: The Poisson Distribution Cover
 status: published
-publishedAt: 2023-6-22
+publishedAt: 2017-6-22
 ---
 
+In the fast-paced world of software development, communication and collaboration are key components of success. This is where Behavior Driven Development (BDD) comes into play. BDD is an approach that fosters shared understanding among all stakeholders, helping to build software that aligns with their needs and expectations. In this blog, we will explore BDD, its key benefits, and how Cucumber, a popular BDD tool, can be used with Java for test automation.
 
-Factory design pattern is a creational pattern providing an efficient way of creating objects by providing an abstracted layer separating the creation logic from the client code. Per wikipedia, the Factory design pattern is one of the twenty-three well-known "Gang of Four" design patterns that describe how to solve recurring design problems to design flexible and reusable object-oriented software, that is, objects that are easier to implement, change, test, and reuse.
+## What is Behavior Driven Development or BDD?
 
-The Factory Method design pattern solves problems like:
-- How can an object be created so that subclasses can redefine which class to instantiate?
-- How can a class defer instantiation to subclasses?
-  
-Creating an object directly within the class that requires (uses) the object is inflexible because it commits the class to a particular object and makes it impossible to change the instantiation independently from (without having to change) the class.
+Behavior Driven Development, often abbreviated as BDD, is an approach to software development that revolves around creating a shared understanding of the software's behavior. Instead of diving into technical implementation details right away, BDD encourages working through examples and use cases to define what the software should do.
 
-The Factory Method design pattern describes how to solve such problems:
-- Define a separate operation (factory method) for creating an object.
-- Create an object by calling a factory method. This enables writing of subclasses to change the way an object is created (to redefine which class to instantiate).
+The fundamental idea is to describe the system's behavior through conversations and examples. By taking an "outside-in" approach, you can implement these behaviors and validate them using real-world examples. BDD focuses on the "what" and "why" of software, allowing technical and non-technical stakeholders to collaborate effectively.
 
-<img
-  src="/images/content/factory-design-pattern/factory-design-uml.jpg"
-  alt="The Poisson Distribution Distribution Cover"
-  sizes="100vw"
-  width="100%"
-  height="auto"
-/>
+## Key Benefits of BDD
 
-Given below are sample codes implementing the UML diagram above -
+BDD is an abstraction of Test Driven Development (TDD) and shares many similarities in practices. However, BDD places a stronger emphasis on the behavior of the application rather than the technical implementation. Here are some key benefits of BDD:
 
+### 1. Better Collaboration and Communication
 
+One of the most significant advantages of BDD is the improvement in collaboration and communication within all stakeholders. By using a common language to describe software behavior, BDD ensures that everyone, regardless of their technical background, has a clear understanding of the project's progress.
 
-```java
-/**
-Product interface
-**/
-public interface Travel {
- public void bookTravel(String travel_id);
- public void cancelTravel(String travel_id);
- public void displayTravelInfo();
-}
-/**
-Libray Classes - concrete implementations of Product
-**/
-public class BusTravel implements Travel {
- @Override
- public void bookTravel(String travel_id) {
-  System.out.println("Booking travel...");
+### 2. Shared Language
 
- }
+BDD establishes a shared language, making it easier for both technical and non-technical team members to discuss and understand project requirements. This shared understanding helps avoid misunderstandings and misinterpretations.
 
- @Override
- public void cancelTravel(String travel_id) {
-  System.out.println("Cancelling travel...");
- }
+### 3. Usability Without Programming Expertise
 
- @Override
- public void displayTravelInfo(String travel_id) {
-  System.out.println("Displaying travel info...");
- }
-}
+BDD is designed to be comprehensible and usable even without in-depth programming expertise. This makes it accessible to a broader range of team members, from product managers to QA testers.
 
-public class TrainTravel implements Travel {
- @Override
- public void bookTravel(String travel_id) {
-  System.out.println("Booking travel...");
+### 4. Fewer Defects
 
- }
+By defining and validating behaviors through examples, BDD helps uncover defects early in the development process. This leads to higher software quality and reduced debugging efforts in later stages.
 
- @Override
- public void cancelTravel(String travel_id) {
-  System.out.println("Cancelling travel...");
- }
+### 5. Living Documentation
 
- @Override
- public void displayTravelInfo(String travel_id) {
-  System.out.println("Displaying travel info...");
- }
-}
+BDD creates living documentation that is always up-to-date. As the software evolves, so does the set of examples and behaviors. This ensures that the documentation remains a reliable reference for the project.
 
+### 6. Proven Platform for CI/CD
 
-public class FlightTravel implements Travel {
- @Override
- public void bookTravel(String travel_id) {
-  System.out.println("Booking travel...");
+BDD seamlessly integrates with Continuous Integration and Continuous Delivery (CI/CD) pipelines. This means that as new features are added or changes are made, the behavior of the software is continuously validated.
 
- }
+## Cucumber: A Tool for BDD Collaboration
 
- @Override
- public void cancelTravel(String travel_id) {
-  System.out.println("Cancelling travel...");
- }
+Cucumber is a widely-used BDD tool and framework that promotes collaboration among all members of a development team. Its primary goal is to enable the creation of tests that anyone can understand, regardless of their technical knowledge. Cucumber serves as a collaboration tool, fostering a shared understanding across the team.
 
- @Override
- public void displayTravelInfo(String travel_id) {
-  System.out.println("Displaying travel info...");
- }
-}
+When working with Cucumber and BDD, feature files are written before the actual code is implemented. These feature files use a language known as Gherkin to describe the expected behavior of the software.
 
-/**
-Creator abstract class
-**/
-public abstract class TravelCreator() {
- public abstract Travel getTravel();
-}
+## What is Gherkin?
 
-/**
-Concrete Product Creator
-**/
-public class BusTravelCreator extends TravelCreator() {
- @Override
- public Travel getTravel() {
-  return new BusTravel();
- }
-}
+Gherkin is the language that Cucumber understands. It is a Business Readable, Domain Specific Language (DSL) that allows you to describe the behavior of software without delving into technical details. Gherkin serves two main purposes:
 
-public class TrainTravelCreator extends TravelCreator() {
- @Override
- public Travel getTravel() {
-  return new TrainTravel();
- }
-}
+### 1. Documentation
 
-public class FlightTravelCreator extends TravelCreator() {
- @Override
- public Travel getTravel() {
-  return new FlightTravel();
- }
-}
+Gherkin feature files serve as documentation for the software's behavior. They are written in a way that non-technical stakeholders can read and understand, making them a valuable reference for project requirements.
 
+### 2. Automated Tests
 
-/**
-Client Code
-**/
-public class TravelBooking {
- private final TravelCreator creator;
+Gherkin also plays a crucial role in automated testing. The same feature files that document behavior can be executed as tests to ensure the software functions as expected.
 
- public TravelBooking(TravelCreator creator) {
-  this.creator = creator;
- }
+## BDD-Cucumber Example using Gherkin Syntax
 
- public void displayTravelInfo() {
-  creator.getTravel().displayTravelInfo();
- }
+Here's an example of a feature file written in Gherkin syntax:
 
-}
+```gherkin
+# feature/search_product.feature
+Feature: Search Product
+As a user, I want to be able to search products
+and see listings based on the search criteria
 
-TravelBooking tb_bus = new TravelBooking(new BusTravelCreator());
-TravelBooking tb_train = new TravelBooking(new TrainTravelCreator());
-TravelBooking tb_flight = new TravelBooking(new FlightTravelCreator());
+Scenario: User searches for a product on the Amazon site
+When the user searches for a product
+Then the user receives a listing of matching products
 ```
+
+In this example, we've created a feature titled "Search Product" and defined a scenario outlining the steps a user takes to search for a product on an e-commerce site like Amazon.
+
+By writing feature files in Gherkin, you can ensure that everyone involved in the project has a shared understanding of the expected behavior, and these files can be used both as documentation and as automated tests to verify that the software meets its requirements.
+
+In conclusion, BDD with Cucumber and Gherkin offers a powerful approach to software development that promotes collaboration, communication, and the creation of high-quality software. By defining and validating behavior through real-world examples, teams can build software that aligns closely with the needs of their stakeholders.
