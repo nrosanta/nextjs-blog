@@ -1,0 +1,206 @@
+---
+title: "Using OpenAPI Codegen for TypeScript to Generate Client Code and Automate Testing"
+tags:
+  - title: API Testing for QE
+  - title: Programming
+  - title: OpenAPI
+categories:
+  - title: UI Testing
+  - title: Programming
+  - title: QE
+author:
+  name: Testingfly
+  designation: Testinfly
+  url: https://testingfly.com
+  avatar:
+    url: user.png
+    alt: Testingfly
+description: "This basic guide will walk you through using OpenAPI Codegen to generate TypeScript client code from an OpenAPI specification, creating a test client, and automating test cases with Jest. We will also show you how to set up essential scripts in your `package.json` file to streamline the development and testing process. As our example, we'll use the Petstore API specification."
+seoDescription: "Unit Testing Best Practices"
+covers:
+  - url: content/codegen/cover.jpeg
+    alt: Codegen using OpenAPI
+status: published
+publishedAt: 2023-4-21
+featured: False
+---
+
+<img
+  src="/images/content/codegen/cover.jpeg"
+  alt="Codegen using OpenAPI"
+  sizes="100vw"
+  width="100%"
+  height="auto"
+/>
+
+This basic guide will walk you through using OpenAPI Codegen to generate TypeScript client code from an OpenAPI specification, creating a test client, and automating test cases with Jest. We will also show you how to set up essential scripts in your `package.json` file to streamline the development and testing process. As our example, we'll use the Petstore API specification.
+
+## Table of Contents
+- [Introduction](#introduction)
+- [Prerequisites](#prerequisites)
+- [Step 1: Set Up Your Project](#step-1-set-up-your-project)
+- [Step 2: Generate TypeScript Client Code](#step-2-generate-typescript-client-code)
+- [Step 3: Create a Test Client](#step-3-create-a-test-client)
+- [Step 4: Writing Test Cases with Jest](#step-4-writing-test-cases-with-jest)
+- [Step 5: Setting Up Scripts in `package.json`](#step-5-setting-up-scripts-in-packagejson)
+- [Step 6: Publish as a Package to Artifactory (Optional)](#step-6-publish-as-a-package-to-artifactory-optional)
+
+## Introduction
+
+OpenAPI Codegen is a powerful tool for automatically generating client code in various programming languages from OpenAPI specifications. In this tutorial, we will focus on generating TypeScript client code and setting up a testing framework for your API client. This QE-centric approach ensures the quality of your generated client code.
+
+## Prerequisites
+
+Before you get started, make sure you have the following prerequisites in place:
+
+- Node.js and npm installed on your machine.
+- A text editor or integrated development environment (IDE) of your choice.
+- Basic knowledge of TypeScript and Jest.
+- An OpenAPI specification. For this tutorial, we'll use the [Petstore API specification](https://petstore.swagger.io/v2/swagger.json).
+
+## Step 1: Set Up Your Project
+
+Let's begin by setting up your project with npm and initializing a `package.json` file.
+
+1. Create a new directory for your project and navigate to it in your terminal:
+
+```bash
+mkdir petstore-client
+cd petstore-client
+```
+
+2. Initialize your project with npm by running the following command. You can follow the prompts to configure your `package.json` or use the `-y` flag to accept default values:
+
+```bash
+npm init
+# or
+npm init -y
+```
+
+This step sets up your project and generates a `package.json` file with the specified configurations.
+
+## Step 2: Generate TypeScript Client Code
+
+In this step, we will use OpenAPI Codegen to generate TypeScript client code from the Petstore API specification.
+
+1. Install `openapi-generator-cli` globally using npm:
+
+```bash
+npm install -g openapi-generator-cli
+```
+
+2. Generate the TypeScript client code by running the following command:
+
+```bash
+openapi-generator-cli generate -g typescript-axios -i https://petstore.swagger.io/v2/swagger.json -o ./src/api
+```
+
+Here's what this command does:
+
+- `-g typescript-axios` specifies the generator for TypeScript client code using Axios for HTTP requests.
+- `-i https://petstore.swagger.io/v2/swagger.json` provides the URL of the Petstore API specification.
+- `-o ./src/api` specifies the output directory for the generated client code.
+
+The generated client code will be available in the `./src/api` directory.
+
+## Step 3: Create a Test Client
+
+Ensuring the quality of your generated client code is crucial, so we'll create a test client in this step. We'll use Jest as our testing framework.
+
+1. Install Jest, ts-jest, @types/jest, and axios as dev dependencies:
+
+```bash
+npm install --save-dev jest ts-jest @types/jest axios
+```
+
+2. Create a test directory and test files for your API client:
+
+```bash
+mkdir -p ./test/api
+touch ./test/api/petstore.test.ts
+```
+
+3. Write test cases for your API client using Jest. Here's an example of some test cases:
+
+```typescript
+// petstore.test.ts
+
+import { PetApi } from '../src/api';
+import { Configuration } from '../src/configuration';
+
+describe('Petstore API Tests', () => {
+  const configuration = new Configuration();
+  const petApi = new PetApi(configuration);
+
+  it('should get a pet by ID', async () => {
+    const petId = 1;
+    const response = await petApi.getPetById({ petId });
+    expect(response.status).toBe(200);
+    // You can add more assertions to validate the response data
+  });
+
+  it('should add a new pet', async () => {
+    const pet = {
+      id: 10001,
+      name: 'Buddy',
+      category: { id: 1, name: 'Dogs' },
+      photoUrls: [],
+    };
+    const response = await petApi.addPet({ pet });
+    expect(response.status).toBe(200);
+    // Add more assertions to validate the response data
+  });
+
+  // Add more test cases as needed
+});
+```
+
+## Step 4: Writing Test Cases with Jest
+
+Now that we've set up Jest and created test cases, you can run your tests with the following command:
+
+```bash
+npx jest
+```
+
+This command executes your test cases and provides detailed test results, including pass/fail statuses and error messages. Make sure to add comprehensive test cases to cover the functionality of your generated client code thoroughly.
+
+## Step 5: Setting Up Scripts in `package.json`
+
+Scripts in your `package.json` can help you automate common development and testing tasks. Let's set up scripts for building, testing, and running your client code.
+
+1. Open your `package.json` file in a text editor.
+
+2. In the `"scripts"` section, add the following scripts:
+
+```json
+{
+  "name": "petstore-client",
+  "version": "1.0.0",
+  "description": "Petstore API client",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",  // A script to start your application
+    "build": "openapi-generator-cli generate -g typescript-axios -i https://petstore.swagger.io/v2/swagger.json -o ./src/api",
+    "test": "npx jest",  // Running Jest tests
+    "test:watch": "npx jest --watch", // Running Jest in watch mode
+    // Add other scripts as needed
+  },
+  "dependencies": {
+    // Your dependencies here
+  },
+  "devDependencies": {
+    // Your dev dependencies here
+  }
+}
+```
+
+- `"start"` is a script for starting your application. You can replace `"node index.js"` with the appropriate command for launching your client code.
+
+- `"build"` is a script for generating TypeScript client code from the Petstore API specification using OpenAPI Codegen.
+
+- `"test"` is a script for running your Jest tests. It uses the `npx jest` command, which you can use to execute your test suite.
+
+- `"test:watch"` is a script that runs Jest in watch mode, continuously watching for changes and re-running tests when files are modified.
+
+3. Save your `package
