@@ -1,0 +1,201 @@
+---
+title: "Getting Started with Playwright Test Automation: TypeScript, POM, Allure Reporting, and Axe Accessibility Testing"
+tags:
+  - title: UI Testing using Playwright
+  - title: Programming
+  - title: Test Automation
+categories:
+  - title: UI Testing
+  - title: Programming
+  - title: QE
+author:
+  name: Testingfly
+  designation: Testinfly
+  url: https://testingfly.com
+  avatar:
+    url: user.png
+    alt: Testingfly
+description: "In this tutorial, we will explore how to automate testing of a Wikipedia page using the Playwright test automation framework. We'll also implement a Page Object Model (POM) for better test structure, set up Allure reporting for detailed test reporting, and integrate the Axe library for accessibility testing."
+seoDescription: "Unit Testing Best Practices"
+covers:
+  - url: content/poisson-distribution/poisson_cover.jpg
+    alt: The Poisson Distribution Cover
+status: published
+publishedAt: 2021-3-18
+featured: True
+---
+
+In this tutorial, we will explore how to automate testing of a Wikipedia page using the Playwright test automation framework. We'll also implement a Page Object Model (POM) for better test structure, set up Allure reporting for detailed test reporting, and integrate the Axe library for accessibility testing. This tutorial will be written in TypeScript for a more robust and type-safe automation solution.
+
+## Prerequisites
+
+Before you begin, make sure you have the following installed:
+
+- Node.js: You can download and install it from [nodejs.org](https://nodejs.org/).
+- Visual Studio Code (optional): A code editor for TypeScript.
+- A code editor of your choice if not using Visual Studio Code.
+
+## Project Setup
+
+Let's set up a new project for our Wikipedia automation tests.
+
+1. Create a new directory for your project and navigate to it in your terminal.
+2. Initialize a new Node.js project by running the following command:
+
+```bash
+npm init -y
+```
+
+3. Install the required dependencies:
+
+```bash
+npm install playwright @playwright/test typescript ts-node @wdio/cli @wdio/allure-reporter axe-core
+```
+
+## Writing the Automation Tests
+
+### Page Object Model (POM)
+
+Page Object Model is a design pattern that separates the page structure and interactions from the test code. This makes your tests more readable and maintainable. Create a directory structure like this:
+
+```
+project-root
+│
+├── src
+│   ├── pages
+│   │   └── WikipediaPage.ts
+│   ├── tests
+│   │   └── WikipediaTest.ts
+│
+├── tsconfig.json
+```
+
+#### WikipediaPage.ts
+
+```typescript
+// src/pages/WikipediaPage.ts
+import { Page } from '@playwright/test';
+
+export class WikipediaPage {
+  constructor(private page: Page) {}
+
+  async navigateTo() {
+    await this.page.goto('https://en.wikipedia.org/wiki/Main_Page');
+  }
+
+  async search(query: string) {
+    await this.page.fill('input[name="search"]', query);
+    await this.page.press('input[name="search"]', 'Enter');
+  }
+
+  async getSearchResults() {
+    return await this.page.locator('.searchresults');
+  }
+}
+```
+
+#### WikipediaTest.ts
+
+```typescript
+// src/tests/WikipediaTest.ts
+import { test, expect } from '@playwright/test';
+import { WikipediaPage } from '../pages/WikipediaPage';
+
+test.describe('Wikipedia Automation Tests', () => {
+  let page: WikipediaPage;
+
+  test.beforeEach(async ({ page }) => {
+    page = new WikipediaPage(page);
+    await page.navigateTo();
+  });
+
+  test('Search for a term', async () => {
+    await page.search('Playwright');
+    const searchResults = await page.getSearchResults();
+    expect(searchResults).toBeTruthy();
+  });
+});
+```
+
+### Writing Allure Report Configuration
+
+We will set up Allure reporting to get detailed test reports. Create an `allure-config.js` file in the root directory:
+
+```javascript
+// allure-config.js
+module.exports = {
+  resultDir: 'allure-results',
+  testDirs: ['allure-results'],
+  cleanup: true,
+};
+```
+
+### Writing Playwright Test Runner Configuration
+
+Create a Playwright test runner configuration in `playwright.config.ts`:
+
+```typescript
+// playwright.config.ts
+import { PlaywrightTestConfig } from '@playwright/test';
+
+const config: PlaywrightTestConfig = {
+  reporter: [
+    ['allure', { outputDir: 'allure-results' }],
+  ],
+};
+
+export default config;
+```
+
+### Running the Tests
+
+You can now run your tests using the Playwright test runner:
+
+```bash
+npx playwright test
+```
+
+This command will execute your tests and generate Allure reports in the `allure-results` directory.
+
+### Integrating Axe for Accessibility Testing
+
+To add accessibility testing to your automation, install the Axe Playwright package:
+
+```bash
+npm install axe-playwright
+```
+
+Now, you can integrate Axe into your tests:
+
+```typescript
+// src/tests/WikipediaTest.ts
+import { test, expect } from '@playwright/test';
+import { WikipediaPage } from '../pages/WikipediaPage';
+import { AxePlaywright } from 'axe-playwright';
+
+test.describe('Wikipedia Automation Tests', () => {
+  let page: WikipediaPage;
+
+  test.beforeEach(async ({ page }) => {
+    page = new WikipediaPage(page);
+    await page.navigateTo();
+  });
+
+  test('Search for a term', async () => {
+    await page.search('Playwright');
+    const searchResults = await page.getSearchResults();
+    expect(searchResults).toBeTruthy();
+
+    // Accessibility testing using Axe
+    const axe = new AxePlaywright(page);
+    const results = await axe.analyze();
+    expect(results.violations.length).toBe(0);
+  });
+});
+```
+
+Now your test will also check for accessibility issues and report any violations.
+
+## Conclusion
+
+In this basic tutorial, we learned how to set up and automate tests for a Wikipedia page using Playwright with TypeScript. You implemented a Page Object Model for better test structure, set up Allure reporting for detailed test reports, and integrated the Axe library for accessibility testing. These practices will help you create maintainable and robust test automation projects.

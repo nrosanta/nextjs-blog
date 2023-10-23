@@ -16,7 +16,7 @@ export default function Articles({ articles }: { articles: Article[] }) {
             </h3>
 
             <div className="flex max-w-5xl flex-col space-y-16">
-              {articles.slice(0, 5).map((article: any) => (
+              {articles.slice(0, 3).map((article: any) => (
                 <ArticleCard key={article.slug} article={article} />
               ))}
             </div>
