@@ -73,6 +73,24 @@ async function getSortedArticles(): Promise<Article[]> {
   });
 }
 
+// Get featured articles from the contentlayer
+async function getFeaturedArticles(): Promise<Article[]> {
+  let articles = await allArticles;
+
+  articles = articles.filter(
+    (article: Article) => article.featured === true
+  );
+
+  return articles.sort((a: Article, b: Article) => {
+    if (a.publishedAt && b.publishedAt) {
+      return (
+        new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+      );
+    }
+    return 0;
+  });
+}
+
 export default async function Articles({
   params,
   searchParams,
@@ -80,7 +98,11 @@ export default async function Articles({
   params?: any;
   searchParams?: { [key: string]: string | string[] | undefined };
 }): Promise<JSX.Element> {
-  const articles = await getSortedArticles();
+  let articles = await getSortedArticles();
+  
+  if (params === 'featured') {
+    articles = await getFeaturedArticles();
+  }
   const page = searchParams?.page ? parseInt(searchParams.page as string) : 1;
 
   return (

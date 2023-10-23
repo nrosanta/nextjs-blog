@@ -79,7 +79,7 @@ async function getLifeEvents(): Promise<any> {
 // get sorted articles from the contentlayer
 async function getSortedArticles(): Promise<any> {
   let articles = await allArticles;
-  articles = articles.filter((article: any) => article.status === "published");
+  articles = articles.filter((article: any) => article.featured === true);
   return articles.sort((a: any, b: any) => {
     if (a.publishedAt && b.publishedAt) {
       return (

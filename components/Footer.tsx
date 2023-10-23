@@ -3,6 +3,7 @@ import Link from "next/link";
 import SpotifyPlayingNow from "./SpotifyPlayingNow";
 
 const navigations = [
+  { href: "/", label: "Home" },
   { href: "/articles", label: "Articles" },
   { href: "/projects", label: "Projects" },
   // { href: "/courses", label: "Courses" },    

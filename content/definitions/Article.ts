@@ -36,6 +36,10 @@ export const Article = defineDocumentType(() => ({
       description: "The status of the post",
       required: true,
     },
+    featured: {
+      type: "boolean",
+      description: "The featured flag of the post"
+    },
     series: {
       type: "nested",
       of: Series,
