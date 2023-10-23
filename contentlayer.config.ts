@@ -14,7 +14,7 @@ import { Snippets } from "./content/definitions/Snippet";
 const PrettyCodeOptions: Partial<Options> = {
   theme: {
     dark: "github-dark",
-    light: "github-light",
+    light: "github-dark",
   },
   onVisitLine(node: any) {
     // Prevent lines from collapsing in `display: grid` mode, and

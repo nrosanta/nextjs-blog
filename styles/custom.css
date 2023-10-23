@@ -15,7 +15,7 @@ div[data-rehype-pretty-code-fragment] .line {
   @apply pl-2 pr-3 border-l-4 border-transparent;
 }
 div[data-rehype-pretty-code-fragment] .highlighted {
-  @apply border-l-teal-500 bg-teal-200/20;
+  @apply border-l-teal-500 bg-teal-200/50;
 }
 div[data-rehype-pretty-code-fragment] code {
   @apply grid;
