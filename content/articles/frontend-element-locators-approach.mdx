@@ -1,0 +1,121 @@
+---
+title: "Exploring Frontend Element Locators with TypeScript and Playwright: Best Practices for Effective Test Automation"
+tags:
+  - title: Frontend element locators
+  - title: UI Testing
+  - title: Test Automation
+categories:
+  - title: UI Testing
+  - title: E2E Testing
+  - title: QE
+author:
+  name: Testingfly
+  designation: Testinfly
+  url: https://testingfly.com
+  avatar:
+    url: user.png
+    alt: Testingfly
+description: "In the realm of test automation, one of the critical components is the ability to locate and interact with elements on a web page. The choice of locators plays a pivotal role in the success and reliability of your test automation framework. In this guide, we'll explore the importance of using meaningful locators and discuss the steps to enhance your test automation using TypeScript and Playwright. We'll also touch upon the concept of custom attributes and their significance in ensuring robust test automation."
+seoDescription: "Unit Testing Best Practices"
+covers:
+  - url: content/frontend-ui-testing/cover.jpg
+    alt: Frontend UI Testing
+status: published
+publishedAt: 2022-8-21
+featured: False
+---
+
+<img
+  src="/images/content/frontend-ui-testing/cover.png"
+  alt="Frontend UI Testing"
+  sizes="100vw"
+  width="90%"
+  height="auto"
+/>
+
+In the realm of test automation, one of the critical components is the ability to locate and interact with elements on a web page. The choice of locators plays a pivotal role in the success and reliability of your test automation framework. In this guide, we'll explore the importance of using meaningful locators and discuss the steps to enhance your test automation using TypeScript and Playwright. We'll also touch upon the concept of custom attributes and their significance in ensuring robust test automation.
+
+## Table of Contents
+1. [Introduction](#introduction)
+2. [Meaningful Locators](#meaningful-locators)
+3. [Custom Attributes for Test Automation](#custom-attributes-for-test-automation)
+4. [Best Practices for Locators](#best-practices-for-locators)
+5. [Example with TypeScript and Playwright](#example-with-typescript-and-playwright)
+6. [Conclusion](#conclusion)
+
+## 1. Introduction <a name="introduction"></a>
+
+The locators used to identify elements on a web page are like the foundation of a building. If your foundation is strong and well-thought-out, your structure (in this case, your test automation) is more likely to stand the test of time. Let's delve into the core concepts of frontend element locators for test automation.
+
+## 2. Meaningful Locators <a name="meaningful-locators"></a>
+
+When you're dealing with locators, one of the cardinal rules is to use meaningful and semantic locators. This means that the locators you choose should be intuitive and convey the purpose of the element they are associated with. For example, consider the following button element:
+
+```html
+<button data-test-id="directions">Itinéraire</button>
+```
+
+In this case, the `data-test-id` attribute is used to provide a clear and meaningful identifier for the button. The name "directions" tells us exactly what this button is for. This approach makes your code more maintainable and helps other team members understand the purpose of the element.
+
+## 3. Custom Attributes for Test Automation <a name="custom-attributes-for-test-automation"></a>
+
+In situations where user-facing attributes are subject to frequent changes, it's advisable to add custom attributes specifically for test automation. The `data-*` attributes are a common choice for this purpose and are well-supported by CSS and ID selectors. 
+
+Custom attributes can be added to your HTML elements like this:
+
+```html
+<button data-test-id="directions">Itinéraire</button>
+```
+
+You can then use these custom attributes to locate elements in your tests.
+
+- Using CSS selector:
+```javascript
+await page.locator('css=[data-test-id=directions]').click();
+await page.locator('[data-test-id=directions]').click(); // short-form
+```
+
+- Using ID selector:
+```javascript
+await page.locator('data-test-id=directions').click();
+```
+
+The benefit of using custom attributes is that they significantly reduce test brittleness. When the UI changes, you only need to update the locators associated with these attributes, rather than making changes throughout your test suite.
+
+## 4. Best Practices for Locators <a name="best-practices-for-locators"></a>
+
+Choosing the right locator is crucial for test automation success. The following order of preference is recommended:
+
+1. **Id/data-test-id**: If it's unique, this should be your first choice.
+2. **Name**: Use the `name` attribute if it uniquely identifies the element.
+3. **Class Name**: Consider using the `class` attribute if no better option is available.
+4. **CSS Selector**: Use a CSS selector that uniquely identifies the element.
+5. **XPath without text or indexing**: XPath can be powerful but should be used sparingly and only when necessary.
+6. **Link Text / Partial Link Text**: These are useful for locating anchor elements.
+7. **XPath with text and/or indexing**: Use as a last resort, as it can be brittle and complex.
+
+## 5. Example with TypeScript and Playwright <a name="example-with-typescript-and-playwright"></a>
+
+Let's put these concepts into action by providing an example using TypeScript and Playwright. We'll use the Playwright library to interact with a web page and demonstrate the use of meaningful locators.
+
+```typescript
+import { chromium } from 'playwright';
+
+(async () => {
+  const browser = await chromium.launch();
+  const page = await browser.newPage();
+
+  await page.goto('https://example.com');
+  
+  // Click the "Directions" button using the data-test-id locator
+  await page.locator('[data-test-id=directions]').click();
+
+  await browser.close();
+})();
+```
+
+In this example, we're opening a web page, locating the "Directions" button using the `data-test-id` attribute, and clicking it. This showcases the practical application of the concepts discussed.
+
+## 6. Conclusion <a name="conclusion"></a>
+
+Frontend element locators are a fundamental aspect of test automation. Using meaningful locators, custom attributes, and following best practices when choosing locators can greatly enhance the reliability and maintainability of your test automation framework. By adhering to these principles and utilizing the power of tools like TypeScript and Playwright, you can build robust and effective automated tests for your web applications.
