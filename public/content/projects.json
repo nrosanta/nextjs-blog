@@ -12,6 +12,18 @@
     }
   },
   {
+    "title": "Playwright Boilerplate code with Angular, Jest and Allure Reporting",
+    "description": "This is a Playwright boilerplate codebase that includes Angular, Jest, and Allure Reporting, making it easy to set up and execute end-to-end tests for your Angular applications. With Playwright's automation capabilities, Jest's testing framework, and Allure Reporting's detailed and visually appealing reports, you can efficiently test your Angular application.",
+    "link": {
+      "href": "https://github.com/testingfly/playwright-boilerplate-angular-jest-allure#readme",
+      "label": "Playwright Boilerplate with Angular, Jest and Allure"
+    },
+    "logo": {
+      "src": "playwright.png",
+      "alt": "Playwright Testing Framework"
+    }
+  },
+  {
     "title": "Project Metrics Dashboard",
     "description": "Create an insightful metrics dashboard using the Python Dash framework to display Jira metrics, offering an overview of project health, performance, and more. This versatile tool can be applied to any project utilizing Jira for enhanced project management and decision-making.",
     "link": {
