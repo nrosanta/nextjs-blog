@@ -198,6 +198,23 @@ expect(dynamicData).toEqual(expectedData);
 
 By employing these strategies, you can effectively handle dynamic content in your UI tests, reducing flakiness, and ensuring that your tests remain stable and reliable. It's crucial to tailor your approach to the specific dynamics of your application to produce consistent and accurate test results.
 
+#### f. **Platform-Based Scrolling**: On tablet platforms or smaller screens, you may encounter scenarios where a button or element is not immediately visible due to limited screen space. In such cases, you may need to implement platform-specific scrolling actions to bring the element into view before interacting with it. Be mindful of responsive design and adjust your POM methods accordingly to handle these differences. 
+
+For example, you can use conditional checks to scroll into view when necessary based on the platform:
+
+```typescript
+const isTablet = isTabletPlatform(); // Implement a function to detect the platform
+const button = await page.locator('[data-test-id="cta-button"]');
+
+if (isTablet) {
+    // Scroll the button into view if on a tablet
+    await button.scrollIntoViewIfNeeded();
+}
+
+await button.click();
+```
+
+By addressing platform-specific behaviors, you can ensure that your tests are adaptable and reliable across different devices and screen sizes.
 
 ## 5. Managing State
 
