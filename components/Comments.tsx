@@ -12,13 +12,13 @@ export default function Comments(): JSX.Element {
       </h2>
       <p className="mt-2 text-base text-zinc-600 dark:text-zinc-400 mb-4">
       Would you like to share your feedback or engage in a discussion about more ideas? Please don&apos;t hesitate to drop a comment {" "}
-        <Link
+        <Link className="text-teal-500"
           href="https://github.com/testingfly/nextjs-blog/discussions"
           target="blank"
         >
-          <em className="text-teal-500">here</em>
+          here
         </Link>
-        
+        .
       </p>
       <Giscus
         id="comments"
@@ -45,11 +45,11 @@ export default function Comments(): JSX.Element {
           giscus
         </Link>{" "}
         application, you can also comment directly{" "}
-        <Link
+        <Link className="text-teal-500"
           href="https://github.com/testingfly/nextjs-blog/discussions"
           target="blank"
         >
-          <em className="text-teal-500">on GitHub</em>
+          on GitHub
         </Link>
         .
       </p>
