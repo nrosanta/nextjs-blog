@@ -12,9 +12,9 @@ export const metadata: Metadata = {
     template: "%s - Testingfly",
   },
   description:
-    "Blog about QE stuff.",
-  generator: "Personal Website",
-  applicationName: "Personal Website",
+    "Hi there! This is a place where I share insights about Quality Engineering and Test Automation, covering topics that seasoned QEs should be familiar with. Whether you're an experienced pro or just starting out, you'll find something helpful here.",
+  generator: "Hi there! This is a place where I share insights about Quality Engineering and Test Automation, covering topics that seasoned QEs should be familiar with. Whether you're an experienced pro or just starting out, you'll find something helpful here.",
+  applicationName: "Hi there! This is a place where I share insights about Quality Engineering and Test Automation, covering topics that seasoned QEs should be familiar with. Whether you're an experienced pro or just starting out, you'll find something helpful here.",
   referrer: "origin-when-cross-origin",
   keywords: [
     "QE",
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     description:
       "Testingfly",
     url: `${server}`,
-    siteName: "Testingfly - Blog about QE stuff.",
+    siteName: "Hi there! This is a place where I share insights about Quality Engineering and Test Automation, covering topics that seasoned QEs should be familiar with. Whether you're an experienced pro or just starting out, you'll find something helpful here.",
     images: [
       {
         url: `${server}/images/favicon.png`,
@@ -104,16 +104,16 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     site: "@testingfly",
-    title: "Ross Meiteir",
+    title: "Testingfly",
     description:
-      "Ross Meitei is a QE leader.",
+      "Hi there! This is a place where I share insights about Quality Engineering and Test Automation, covering topics that seasoned QEs should be familiar with. Whether you're an experienced pro or just starting out, you'll find something helpful here.",
     creator: "@testingfly",
     images: [
       {
         url: `${server}/images/og-image.png`,
         width: 1200,
         height: 630,
-        alt: "Ross Meitei - QE Professional",
+        alt: "Testingfly",
       },
     ],
   },
@@ -124,8 +124,7 @@ export const metadata: Metadata = {
   },
   verification: {
     google: "google-site-verification=0",
-    // bing: "msvalidate.01=0",
-    // yandex: "yandex-verification=0",
+    yandex: "yandex-verification=0",
   },
 
   alternates: {
