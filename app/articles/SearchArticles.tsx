@@ -58,7 +58,7 @@ export default function SearchArticles({
         />
         <MagnifyingGlassIcon className="absolute w-5 h-5 text-gray-400 right-3 top-3 dark:text-gray-300" />
       </div>
-      <div className="md:border-l md:border-zinc-100 md:pl-6 md:dark:border-zinc-700/40">
+      <div className="md:border-l md:border-zinc-150 md:pl-6 md:dark:border-zinc-700/40">
         <div className="flex max-w-5xl flex-col space-y-16">
           {currentArticles.map((article: any) => (
             <ArticleCard key={article.slug} article={article} />

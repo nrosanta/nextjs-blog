@@ -107,8 +107,8 @@ export default async function Articles({
 
   return (
     <SimpleLayout
-      title="Creating content about Quality Engineering, Automation, and Programming."
-      intro="Every article I compose is crafted with the intention of aiding you in acquiring fresh knowledge. I trust you find them enjoyable!"
+      title="Creating content about Quality Engineering, Automation, and Testing related topics."
+      intro="I whip up articles to help you discover cool new stuff, and I hope you have a good time checking them out!"
     >
       <SearchArticles articles={articles} page={page} />
     </SimpleLayout>
