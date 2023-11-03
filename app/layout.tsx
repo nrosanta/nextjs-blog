@@ -70,7 +70,7 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: "/favicon.ico",
+        url: "/favicon_dark.ico",
       },
       new URL("/favicon.ico", server).href,
       {
