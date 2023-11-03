@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     siteName: "Hi there! This is a place where I share insights about Quality Engineering and Test Automation, covering topics that seasoned QEs should be familiar with. Whether you're an experienced pro or just starting out, you'll find something helpful here.",
     images: [
       {
-        url: `${server}/images/favicon.png`,
+        url: `${server}/images/favicon_dark.png`,
         width: 1200,
         height: 630,
         alt: "Testingfly - Blog about QE stuff.",

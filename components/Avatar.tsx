@@ -1,8 +1,13 @@
+
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
+import { useTheme } from "next-themes";
+import React, { useState, useEffect } from "react";
 
-import avatarImage from "../public/images/favicon.png";
+import avatarImage_dark from "../public/images/favicon_dark.png";
+import avatarImage_light from "../public/images/favicon_light.png";
+
 
 type Props = {
   large?: boolean;
@@ -14,6 +19,14 @@ export default function Avatar({
   className,
   ...props
 }: Props): JSX.Element {
+
+  const { theme } = useTheme();
+  const [isDark, setIsDark] = useState(false);
+
+  useEffect(() => {
+    setIsDark(theme === "dark");
+  }, [theme]);
+
   return (
     <Link
       href="/"
@@ -22,7 +35,8 @@ export default function Avatar({
       {...props}
     >
       <Image
-        src={avatarImage}
+        src={ isDark ? avatarImage_dark: avatarImage_light}
+        
         alt=""
         sizes={large ? "16rem" : "10rem"}
         className={clsx(
