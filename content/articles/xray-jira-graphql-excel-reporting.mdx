@@ -1,0 +1,216 @@
+---
+title: "Extracting Test Execution Data from Xray Cloud and Writing to Excel using GraphQL"
+tags:
+  - title: Extracting Test Execution Data from Xray Cloud and Writing to Excel using GraphQL
+  - title: Xray-Jira Reporting
+categories:
+  - title: Test Reporting
+  - title: Jira Python
+  - title: GraphQL
+author:
+  name: Testingfly
+  designation: Testinfly
+  url: https://testingfly.com
+  avatar:
+    url: user.png
+    alt: Testingfly
+description: "In this tutorial, we will walk through the process of extracting test execution data from Xray Cloud using the GraphQL API and writing the data to an Excel file."
+seoDescription: "Extracting Test Execution Data from Xray Cloud and Writing to Excel using GraphQL"
+covers:
+  - url: content/unit-testing/cover.png
+    alt: Extracting Test Execution Data from Xray Cloud and Writing to Excel
+status: published
+publishedAt: 2022-7-19
+---
+<div align="center">
+<img
+  src="/images/content/graphql-client/cover.png"
+  alt="Codegen using OpenAPI"
+  sizes="100vw"
+  width="100%"
+  height="auto"
+/>
+</div>
+
+In this tutorial, we will walk through the process of extracting test execution data from Xray Cloud using the GraphQL API and writing the data to an Excel file. We will use Python and the following libraries:
+
+- `gql` for making GraphQL queries.
+- `openpyxl` for working with Excel files.
+- `requests` for making HTTP requests.
+
+The tutorial will be structured as follows:
+
+1. Prerequisites
+2. Set Up Authentication
+3. Define GraphQL Query
+4. Extract Test Execution Data
+5. Write Data to Excel
+6. Full Python Script
+7. Conclusion
+
+## Prerequisites
+
+Before you begin, make sure you have the following prerequisites in place:
+
+- Python installed on your system.
+- Necessary Python libraries installed (`gql`, `openpyxl`, and `requests`).
+- Access to Xray Cloud with a client ID and client secret.
+- An Excel file where you want to store the extracted data.
+
+## Set Up Authentication
+
+In order to access the Xray Cloud GraphQL API, you need to obtain an access token using your client ID and client secret. The `get_token` function in the provided code can be used to do this. Replace the `client_id` and `client_secret` with your own values.
+
+```python
+client_id = "your_client_id"
+client_secret = "your_client_secret"
+token_endpoint = 'https://xray.cloud.getxray.app/api/v1/authenticate'
+
+access_token = get_token(client_id, client_secret, token_endpoint)
+```
+
+## Define GraphQL Query
+
+The GraphQL query in the code retrieves test execution data from Xray Cloud. You can modify the query to suit your specific needs. The `gql` library allows you to create complex queries easily.
+
+```python
+graphql_query = gql("""
+query($limit: Int!, $start: Int!, $jql: String!)
+{
+    getTestExecutions(jql: $jql, limit: 1) {
+        total
+        start
+        results {
+        issueId
+        jira(fields: ["key", "summary"])
+        projectId
+        testRuns(limit: $limit, start: $start) {
+            total
+            start
+            results {
+            status {
+                name
+            }
+            test {
+              jira(fields:["key", "summary", "assignee"])
+            }
+            }
+        }
+        }
+    }
+}
+""")
+```
+
+## Extract Test Execution Data
+
+The `get_xray_data` function is responsible for making GraphQL requests to Xray Cloud, paginating through the results, and returning the data as a list of test executions.
+
+```python
+data = get_xray_data(jql_query_API, access_token)
+```
+
+## Write Data to Excel
+
+The `write_to_excel` function is used to write the extracted test execution data to an Excel file. The function takes the worksheet and data as arguments and clears any existing data before writing the new data.
+
+```python
+file_path = "path_to_your_excel_file.xlsx"
+worksheet_name = 'Sheet1'
+
+wb = openpyxl.load_workbook(filename=file_path)
+ws = wb[worksheet_name]
+
+if data:
+    write_to_excel(ws, data)
+    wb.save(filename=file_path)
+```
+
+## Full Python Script
+
+Here's the full Python script that combines all the steps above:
+
+```python
+from gql import Client, gql
+from gql.transport.requests import RequestsHTTPTransport
+import openpyxl
+import requests
+
+# Set up your authentication
+client_id = "your_client_id"
+client_secret = "your_client_secret"
+token_endpoint = 'https://xray.cloud.getxray.app/api/v1/authenticate'
+access_token = get_token(client_id, client_secret, token_endpoint)
+
+# Define your GraphQL query
+graphql_query = gql("""
+query($limit: Int!, $start: Int!, $jql: String!)
+{
+    getTestExecutions(jql: $jql, limit: 1) {
+        total
+        start
+        results {
+        issueId
+        jira(fields: ["key", "summary"])
+        projectId
+        testRuns(limit: $limit, start: $start) {
+            total
+            start
+            results {
+            status {
+                name
+            }
+            test {
+              jira(fields:["key", "summary", "assignee"])
+            }
+            }
+        }
+        }
+    }
+}
+""")
+
+# Get API Execution Data
+worksheet_name = 'API_Execution_Raw'
+jql_query_API = "project=VIVAQE and summary ~ 'API Automation'"
+data = get_xray_data(jql_query_API, access_token)
+file_path = "path_to_your_excel_file.xlsx"
+wb = openpyxl.load_workbook(filename=file_path)
+ws = wb[worksheet_name]
+
+if data:
+    write_to_excel(ws, data)
+    wb.save(filename=file_path)
+    print(f'Test Execution: {executionKey} - {executionSummary}')
+    print(f'Total tests found: {len(data)}')
+
+# Get UI Execution Data (you can repeat this section for different data)
+worksheet_name = 'UI_Execution_Raw'
+jql_query_UI = "project=VIVAQE and summary ~ 'UI Automation'"
+data = get_xray_data(jql_query_UI, access_token)
+wb = openpyxl.load_workbook(filename=file_path)
+ws = wb[worksheet_name]
+
+if data:
+    write_to_excel(ws, data)
+    wb.save(filename=file_path)
+    print(f'Test Execution: {executionKey} - {executionSummary}')
+    print(f'Total tests found: {len(data)}')
+
+# Get UAT Execution Data (you can repeat this section for different data)
+worksheet_name = 'UAT_Execution_Raw'
+jql_query_UAT = "project=VIVAQE and key=VIVAQE-873"
+data = get_xray_data(jql_query_UAT, access_token)
+wb = openpyxl.load_workbook(filename=file_path)
+ws = wb[worksheet_name]
+
+if data:
+    write_to_excel(ws, data)
+    wb.save(filename=file_path)
+    print(f'Test Execution: {executionKey} - {executionSummary}')
+    print(f'Total tests found: {len(data)}')
+```
+
+## Conclusion
+
+This tutorial demonstrates how to extract test execution data from Xray Cloud using Python and GraphQL and write it to an Excel file. You can adapt the code to retrieve different sets of data and customize the Excel file to meet your reporting needs.
