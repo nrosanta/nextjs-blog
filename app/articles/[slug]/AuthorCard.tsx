@@ -16,9 +16,10 @@ export default function AuthorCard({
               alt={article.author.name}
               sizes="100vw"
               src={`/images/${article.author.avatar.url}`}
-              width={30}
-              height={30}
-              className="rounded-full absolute inset-0 box-border p-0 border-none m-auto block w-0 h-0 min-w-full max-w-full min-h-full max-h-full object-cover"
+              width={60}
+              height={60}
+              // className="rounded-full absolute inset-0 box-border p-0 border-none m-auto block w-0 h-0 min-w-full max-w-full min-h-full max-h-full object-cover"
+              className="rounded-full absolute inset-0 box-border p-0 border-none m-auto block w-20 h-20"
             />
           </span>
         </div>
