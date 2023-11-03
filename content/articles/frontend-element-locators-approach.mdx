@@ -86,13 +86,65 @@ The benefit of using custom attributes is that they significantly reduce test br
 
 Choosing the right locator is crucial for test automation success. The following order of preference is recommended:
 
-1. **Id/data-test-id**: If it's unique, this should be your first choice.
-2. **Name**: Use the `name` attribute if it uniquely identifies the element.
-3. **Class Name**: Consider using the `class` attribute if no better option is available.
-4. **CSS Selector**: Use a CSS selector that uniquely identifies the element.
-5. **XPath without text or indexing**: XPath can be powerful but should be used sparingly and only when necessary.
-6. **Link Text / Partial Link Text**: These are useful for locating anchor elements.
-7. **XPath with text and/or indexing**: Use as a last resort, as it can be brittle and complex.
+1. **Id/data-test-id:**
+
+   If an element has a unique identifier, it is usually the best choice. Many modern web applications include data-test-ids for this purpose. Here's an example using Playwright and TypeScript:
+
+   ```typescript
+   const uniqueElement = await page.locator('[data-test-id="unique-id"]');
+   ```
+
+2. **Name:**
+
+   The `name` attribute can be used if it uniquely identifies an element. Here's an example:
+
+   ```typescript
+   const elementWithName = await page.locator('input[name="username"]');
+   ```
+
+3. **Class Name:**
+
+   If no better option is available, you can use the `class` attribute. Be cautious as classes can be non-unique, and using them as locators may lead to flaky tests:
+
+   ```typescript
+   const elementWithClass = await page.locator('.my-class');
+   ```
+
+4. **CSS Selector:**
+
+   CSS selectors are powerful and versatile for locating elements. You should use them when they can uniquely identify an element. For example:
+
+   ```typescript
+   const elementWithCSS = await page.locator('#uniqueId .nestedClass > div');
+   ```
+
+5. **XPath without text or indexing:**
+
+   While XPath can be powerful, it should be used sparingly and only when necessary. Avoid using text-based or indexed XPath expressions. Here's an example:
+
+   ```typescript
+   const elementWithXPath = await page.locator('//input[@id="uniqueId"]');
+   ```
+
+6. **Link Text / Partial Link Text:**
+
+   These locators are useful for finding anchor elements, particularly in navigation scenarios. Example:
+
+   ```typescript
+   const linkByText = await page.locator('a=Click Me');
+   const partialLinkText = await page.locator('a=Partial Link Text');
+   ```
+
+7. **XPath with text and/or indexing:**
+
+   XPath with text or indexing should be your last resort as it can make your tests brittle and complex. Here's an example:
+
+   ```typescript
+   const elementWithTextXPath = await page.locator('//div[contains(text(), "Some Text")]');
+   const elementWithIndexedXPath = await page.locator('(//input)[2]');
+   ```
+
+Remember that the choice of locator should be based on the specific context of your application and the element you want to interact with. Always prioritize unique and stable locators to create reliable and maintainable automation scripts. Playwright offers a wide range of locator strategies, and understanding when to use each one will lead to more robust test automation.
 
 ## 5. Example with TypeScript and Playwright <a name="example-with-typescript-and-playwright"></a>
 
