@@ -32,7 +32,7 @@ export default function AuthorCard({
           <div>
             <p>
               <Link href={article.author.url || ""}> Testingfly</Link>{" "}
-              is a dedicated testing aficionado and a passionate lover of all things technology. He&apos;s committed to sharing his insights and experiences, primarily focusing on tools and technologies in the realm of test automation and governance, through his blog.
+              is my spot for sharing insights and experiences, with a primary focus on tools and technologies related to test automation and governance.
             </p>
           </div>
         </div>
