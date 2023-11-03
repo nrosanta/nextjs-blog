@@ -39,14 +39,13 @@ publishedAt: 2023-11-3
    # - [Content Delivery](#content-delivery)
    # - [Sitecore Experience Platform (XP)](#sitecore-experience-platform)
 3. [Sitecore Architecture](#sitecore-architecture)
-4. [Installation and Setup](#installation-and-setup)
-5. [Basic Sitecore Operations](#basic-sitecore-operations)
-6. [Sitecore Development](#sitecore-development)
+4. [Basic Sitecore Operations](#basic-sitecore-operations)
+5. [Sitecore Development](#sitecore-development)
    # - [Programming Languages](#programming-languages)
    # - [Development Tools](#development-tools)
    # - [Helix Architecture](#helix-architecture)
    # - [Creating Custom Components](#creating-custom-components)
-7. [Functional UI Testing](#functional-ui-testing)
+6. [Functional UI Testing](#functional-ui-testing)
 
 
 ## 1. What is Sitecore? <a name="what-is-sitecore"></a>
@@ -72,29 +71,33 @@ Sitecore XP is a suite of tools and features that provide a holistic view of cus
 
 ## 3. Sitecore Architecture <a name="sitecore-architecture"></a>
 
-Sitecore's architecture consists of several key components, including content management servers, databases, content delivery servers, and a web server. Understanding this architecture is crucial for managing and developing Sitecore solutions.
+Sitecore's architecture is a crucial aspect to understand when working with the CMS. It consists of several key components, each with a specific role in the system. Having a solid grasp of Sitecore's architecture is essential for effectively managing, developing, and scaling your Sitecore solution. Here's an overview of the main architectural components:
 
-## 4. Installation and Setup <a name="installation-and-setup"></a>
+- **Content Management Server**: This server is where content editors and administrators work on creating and editing content. It houses the Sitecore databases, including the master and core databases, where content is stored. The content management server is responsible for content creation, editing, and workflow processes. It is typically separate from the content delivery servers to ensure a stable and efficient environment for content editors.
 
-To get started with Sitecore, you need to install and configure it on your development environment. You can follow the official Sitecore documentation for detailed installation instructions. The installation process may vary based on the version of Sitecore you're using. Here are the basic steps:
+- **Content Delivery Server**: The content delivery server is responsible for delivering web content to end-users. It serves as the public-facing side of your Sitecore solution. It stores the web database, which contains the published content and optimized data for rendering pages quickly. Caching mechanisms are often implemented on the content delivery server to enhance performance.
 
-1. **Download Sitecore**: Obtain the Sitecore installation package from the official Sitecore website.
+- **Databases**: Sitecore relies on several databases to store content and configuration data. The two primary databases are the master database, used for content editing and authoring, and the web database, used for content delivery. Sitecore also includes a core database for storing configuration data shared across the solution.
 
-2. **Setup Prerequisites**: Ensure your environment meets the prerequisites, including a web server, a database server, and .NET Framework.
+- **Web Server**: The web server acts as the entry point for users accessing your Sitecore-powered website. It processes user requests and communicates with the content delivery server to provide a seamless user experience. The web server hosts the published content and serves as the public-facing layer of your Sitecore solution.
 
-3. **Run Installation Wizard**: Launch the Sitecore installation wizard, which guides you through the setup process. You'll need to specify database connection details, website settings, and admin credentials.
+<img
+  src="/images/content/sitecore/architecture_2.png"
+  alt="SiteCore Architecture"
+  sizes="100vw"
+  width="60%"
+  height="auto"
+/>
 
-4. **Configure IIS**: Set up Internet Information Services (IIS) to host your Sitecore website.
+Understanding the role of each architectural component is essential for designing, configuring, and scaling your Sitecore solution effectively. It ensures that content authors can work efficiently in the content management server, and end-users receive a high-performance experience from the content delivery server. Additionally, Sitecore's modular architecture allows you to extend and customize the system to meet your specific requirements.
 
-5. **Deploy License**: Provide a valid Sitecore license to activate your instance.
+## 4. Basic Sitecore Operations <a name="basic-sitecore-operations"></a>
 
-## 5. Basic Sitecore Operations <a name="basic-sitecore-operations"></a>
-
-### 5.1 Logging In <a name="logging-in"></a>
+### 4.1 Logging In <a name="logging-in"></a>
 
 After installing Sitecore, you can access the backend by opening your web browser and navigating to the Sitecore login page, typically located at `http://your-website-url/sitecore`. Log in using the administrator credentials provided during installation.
 
-### 5.2 Creating Content <a name="creating-content"></a>
+### 4.2 Creating Content <a name="creating-content"></a>
 
 Sitecore's content creation is intuitive. You can create new content items such as web pages, articles, or products by following these steps:
 
@@ -106,12 +109,12 @@ Sitecore's content creation is intuitive. You can create new content items such 
 
 4. Fill in the content fields, add images or other media, and save your changes.
 
-### 5.3 Editing Content <a name="editing-content"></a>
+### 4.3 Editing Content <a name="editing-content"></a>
 
 Editing content in Sitecore is straightforward. When you open a content item, you can make changes directly in the content editor. Sitecore provides a WYSIWYG editor, which allows you to format text, insert images, and manage links. Additionally, Sitecore offers version control, so you can keep track of changes and restore previous versions if needed.
 
-## 6. Sitecore Development <a name="sitecore-development"></a>
-### 6.1 Programming Languages <a name="programming-languages"></a>
+## 5. Sitecore Development <a name="sitecore-development"></a>
+### 5.1 Programming Languages <a name="programming-languages"></a>
 
 Sitecore primarily uses C# for server-side development and JavaScript for client-side development. Here's a brief overview:
 
@@ -140,7 +143,7 @@ This inventory management system streamlines the process of adding new cars to t
   height="auto"
 />
 
-### 6.2 Development Tools <a name="development-tools"></a>
+### 5.2 Development Tools <a name="development-tools"></a>
 
 Common development tools for Sitecore development include:
 
@@ -150,19 +153,19 @@ Common development tools for Sitecore development include:
 
 - **Sitecore CLI**: Sitecore CLI is a command-line interface that simplifies certain development tasks, such as installing packages, generating code templates, and deploying solutions.
 
-### 6.3 Helix Architecture <a name="helix-architecture"></a>
+### 5.3 Helix Architecture <a name="helix-architecture"></a>
 
 The Helix architecture is a recommended best practice for structuring Sitecore projects. It promotes modular development, separation of concerns, and maintainability. Under the Helix architecture, your Sitecore solution is divided into modules, each with its own purpose and responsibilities.
 
-### 6.4 Creating Custom Components <a name="creating-custom-components"></a>
+### 5.4 Creating Custom Components <a name="creating-custom-components"></a>
 
 Sitecore allows you to create custom components like renderings, templates, and layouts. For example, you can design a custom product carousel rendering that showcases products from your e-commerce catalog. This
 
  requires coding in C# to define the rendering's behavior and JavaScript for client-side interactivity.
 
-## 7. Functional UI Testing <a name="functional-ui-testing"></a>
+## 6. Functional UI Testing <a name="functional-ui-testing"></a>
 
-### 7.1 Considerations for Sitecore-Backed Applications <a name="ui-testing-considerations"></a>
+### 6.1 Considerations for Sitecore-Backed Applications <a name="ui-testing-considerations"></a>
 
 When developing Sitecore-backed web applications, it's crucial to perform functional UI testing to ensure that your website functions as expected. Consider the following aspects when planning and executing UI tests:
 
