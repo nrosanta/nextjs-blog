@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { useReadingProgress } from "hooks";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -41,8 +42,11 @@ export default function DesktopNavigation({
   className,
 }: Props): JSX.Element {
   let router = useRouter();
+  // const completion = useReadingProgress();
+
   return (
     <nav className={className}>
+    {/* <nav className="flex flex-row justify-between items-center print:hidden sticky z-50 top-0 bg-inherit py-3"> */}
       <ul className="flex rounded-full bg-white/90 px-3 text-md font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-700/90 dark:text-zinc-200 dark:ring-white/10">
         {links.map(({ href, label }, index) => (
           <NavItem key={index} href={href}>
@@ -50,6 +54,13 @@ export default function DesktopNavigation({
           </NavItem>
         ))}
       </ul>
+      {/* </div> */}
+      {/* <span
+        style={{
+          transform: `translateX(${completion - 100}%)`,
+        }}
+        className={`absolute bottom-0 w-full h-0.5 bg-yellow-500`}
+      /> */}
     </nav>
   );
 }

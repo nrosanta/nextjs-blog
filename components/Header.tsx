@@ -8,6 +8,8 @@ import { Container } from "./Container";
 import DesktopNavigation from "./DesktopNavigation";
 import MobileNavigation from "./MobileNavigation";
 import ThemeSelector from "./ThemeSelector";
+import { useReadingProgress } from "hooks";
+import { useSticky } from "react-use-sticky";
 
 const navigations = [
   { href: "/", label: "Home" },
@@ -48,6 +50,8 @@ export default function Header(): JSX.Element {
   let headerRef = useRef();
   let avatarRef = useRef();
   let isInitial = useRef(true);
+  const completion = useReadingProgress();
+  const [isSticky, setIsSticky] = useSticky();
 
   useEffect(() => {
     let downDelay = (avatarRef.current as any)?.offsetTop ?? 0;
@@ -147,15 +151,29 @@ export default function Header(): JSX.Element {
     };
   }, [isHomePage]);
 
+  
+
   return (
+    
     <>
       <header
-        className="pointer-events-none relative z-50 flex flex-col"
+        // className="pointer-events-none relative z-50 flex flex-col"
+        className="sticky z-40 top-0 backdrop-blur-sm py-0.5"
+        
+        // className="flex flex-row justify-between items-center print:hidden sticky z-50 top-0 bg-inherit py-3"
         style={{
           height: "var(--header-height)",
           marginBottom: "var(--header-mb)",
         }}
       >
+        <span
+          id="progress-bar"
+          style={{
+            transform: `translateX(${completion - 100}%)`,
+          }}
+          className={`absolute top-0 w-full transition-transform duration-150 h-1.5 bg-teal-500`}
+      />
+
         {isHomePage && (
           <>
             <div
@@ -191,7 +209,8 @@ export default function Header(): JSX.Element {
           }}
         >
           <Container>
-            <div className="relative flex gap-4">
+            <div className="relative flex gap-4" >
+            {/* <div className="flex flex-row justify-between items-center print:hidden sticky z-50 top-0 bg-inherit py-3"> */}
               <div className="flex flex-1">
                 {!isHomePage && (
                   <AvatarContainer>
@@ -219,6 +238,7 @@ export default function Header(): JSX.Element {
         </div>
       </header>
       {isHomePage && <div style={{ height: "var(--content-offset)" }} />}
+      
     </>
   );
 }
