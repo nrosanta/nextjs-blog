@@ -33,6 +33,8 @@ export default function ArticleCard({
         </Card.Eyebrow>
         <Card.Description>
           {article.description}
+          <img src={article.covers[0].url} alt=""/>
+          
           </Card.Description>
         <Card.Cta>Read article</Card.Cta>
       </Card>
