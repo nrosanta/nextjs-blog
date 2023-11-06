@@ -53,7 +53,7 @@ export const metadata: Metadata = {
 export default function Projects(): JSX.Element {
   return (
     <SimpleLayout
-      title="Boilerplates"
+      title="Projects and Boilerplates"
       intro="These projects are personal in nature, and I haven't consistently made the effort to publish them. However, I'm willing to share some that could be beneficial to others."
     >
       <div className="mt-16 sm:mt-20">
