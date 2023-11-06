@@ -34,6 +34,18 @@
       "src": "dash.png",
       "alt": "Test"
     }
+  },
+  {
+    "title": "Angular DotNet Core Playwright Boilerplate",
+    "description": "The Angular DotNet Core Playwright Boilerplate is a starting template for web application development. It combines Angular for the front-end, .NET Core for the back-end, and Playwright for end-to-end testing.",
+    "link": {
+      "href": "https://github.com/testingfly/angular-dotnetcore#readme",
+      "label": "Angular DotNet"
+    },
+    "logo": {
+      "src": "projects/angular_dotnet.jpeg",
+      "alt": "Anuglar DotNet"
+    }
   }
 
 ]
