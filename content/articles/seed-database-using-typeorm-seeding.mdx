@@ -34,12 +34,64 @@ Seeding your database is an essential step in the application development proces
 
 ## Setting Up the Project
 
-First, let's set up your project. In the root directory of your project (where your `package.json` is located), install the necessary dependencies:
+Setting up your project is a crucial initial step when you embark on a journey to seed your database using TypeORM Seeding. Properly configuring your project environment ensures a smooth and efficient database seeding process. In this section, we will delve deeper into setting up your project, covering essential aspects like project structure, dependencies, and configurations.
+
+## Project Structure
+
+A well-organized project structure is essential for efficient development and maintenance. To set up your project for TypeORM Seeding, consider a structure like this:
+
+```
+my-project/
+|-- src/
+|   |-- db/
+|   |   |-- entities/
+|   |   |   |-- user.ts
+|   |   |   |-- post.ts
+|   |   |-- seeding/
+|   |   |   |-- factories/
+|   |   |   |   |-- user.factory.ts
+|   |   |   |   |-- post.factory.ts
+|   |   |   |-- seeds/
+|   |   |   |   |-- initialSeed.ts
+|   |   |-- dev.db
+|   |-- seed.ts
+|-- tsconfig.json
+|-- package.json
+```
+
+- **src**: This directory contains your application's source code. The `db` folder inside `src` is where you define your database entities and the database seeding-related code.
+
+- **db/entities**: Here, you define your TypeORM entities like `User` and `Post`. These entities represent your database tables and define their properties and relationships.
+
+- **db/seeding**: This is where you organize your database seeding code.
+
+  - **factories**: In the `factories` directory, you define factories for generating random data for your entities. For each entity, create a corresponding factory file.
+
+  - **seeds**: The `seeds` directory is where you define the seeders responsible for populating your database with data.
+
+- **package.json**: The package.json file is where you manage your project's dependencies and scripts.
+
+## Installing Dependencies
+
+To start setting up your project, you need to install the necessary dependencies. As mentioned earlier, you will require two crucial packages: `typeorm-seeding` and `faker`. Here's how to install them:
 
 ```bash
-npm install typeorm-seeding faker --save
-npm install @types/faker --save-dev
+npm i typeorm-extension @faker-js/faker typeorm reflect-metadata sqlite
 ```
+
+## Configuring Your Project
+
+After setting up the directory structure and installing the required dependencies, it's crucial to configure your project properly. Key configuration steps include:
+
+- Defining your entities in the `db/entities` directory.
+
+- Creating factories for your entities in the `db/seeding/factories` directory.
+
+- Defining seeders in the `db/seeding/seeds` directory.
+
+- Creating a script in your `package.json` to execute the database seeding process.
+
+With these project setup steps, you're well on your way to efficiently seeding your database using TypeORM Seeding. A well-structured project and the right dependencies are the foundation for creating a robust and testable database seeding process, ultimately leading to a more robust and production-ready application.
 
 ## Understanding Factories
 
@@ -51,51 +103,46 @@ For instance, if you have the following entities:
 // @/src/db/entities/user.ts
 import {
   Entity,
-  PrimaryGeneratedColumn,
   Column,
+  PrimaryGeneratedColumn,
   OneToMany,
-  BaseEntity,
 } from "typeorm";
 import { Post } from "./post";
 
 @Entity()
-export class User extends BaseEntity {
+export class User {
   @PrimaryGeneratedColumn()
-  id!: number;
+    id?: string;
 
   @Column()
-  name!: string;
+    userName?: string;
 
-  @OneToMany(() => Post, (post) => post.user)
-  posts?: Post[];
+  @OneToMany(() => Post, (post) => post.author)
+    posts?: Post[];
 }
 
 // @/src/db/entities/post.ts
-import {
+import typeorm, {
   Entity,
-  PrimaryGeneratedColumn,
   Column,
+  PrimaryGeneratedColumn,
   ManyToOne,
-  BaseEntity,
 } from "typeorm";
 import { User } from "./user";
 
 @Entity()
-export class Post extends BaseEntity {
+export class Post {
   @PrimaryGeneratedColumn()
-  id!: number;
+    id?: string;
 
   @Column()
-  title!: string;
+    title!: string;
 
   @Column()
-  description!: string;
-
-  @Column({ type: "boolean", default: false })
-  isPublished!: boolean;
+    content!: string;
 
   @ManyToOne(() => User, (user) => user.posts)
-  user!: User;
+    author!: typeorm.Relation<User>;
 }
 ```
 
@@ -103,15 +150,13 @@ For the `User` entity, you might define a factory like this:
 
 ```typescript
 // @/src/db/seeding/factories/user.factory.ts
-import * as Faker from "faker";
-import { define } from "typeorm-seeding";
-import { User } from "../../entities";
+import { Faker } from "@faker-js/faker";
+import { setSeederFactory } from "typeorm-extension";
+import { User } from "../../entities/user";
 
-define(User, (faker: typeof Faker) => {
+export const UsersFactory = setSeederFactory(User, (faker: Faker) => {
   const user = new User();
-  const firstName = faker.name.firstName();
-  const lastName = faker.name.lastName();
-  user.name = `${firstName} ${lastName}`;
+  user.userName = faker.internet.userName();
   return user;
 });
 ```
@@ -120,15 +165,14 @@ And for the `Post` entity:
 
 ```typescript
 // @/src/db/seeding/factories/post.factory.ts
-import * as Faker from "faker";
-import { define } from "typeorm-seeding";
-import { Post } from "../../entities";
+import { Faker } from "@faker-js/faker";
+import { setSeederFactory } from "typeorm-extension";
+import { Post } from "../../entities/post";
 
-define(Post, (faker: typeof Faker) => {
+export const PostsFactory = setSeederFactory(Post, (faker: Faker) => {
   const post = new Post();
-  post.title = faker.lorem.words(8);
-  post.description = faker.lorem.paragraph(6);
-  post.isPublished = faker.random.boolean();
+  post.title = faker.lorem.sentence();
+  post.content = faker.lorem.sentence();
   return post;
 });
 ```
@@ -141,67 +185,74 @@ Now, let's create a seeder, which is responsible for executing the database seed
 
 ```typescript
 // @/src/db/seeding/seeds/initialSeed.ts
-import { Factory, Seeder } from "typeorm-seeding";
-import { Connection } from "typeorm";
+import { DataSource } from "typeorm";
+import { Seeder, SeederFactoryManager } from "typeorm-extension";
+import { User } from "../../entities/user";
+import { Post } from "../../entities/post";
+import { faker } from '@faker-js/faker';
 
-export default class InitialDatabaseSeed implements Seeder {
-  public async run(factory: Factory, connection: Connection): Promise<void> {
-    // ...
+export class MainSeeder implements Seeder {
+  public async run(
+    dataSource: DataSource,
+    factoryManager: SeederFactoryManager,
+  ): Promise<any> {
+    const postsRepository = dataSource.getRepository(Post);
+
+    const userFactory = factoryManager.get(User);
+    const postsFactory = factoryManager.get(Post);
+
+    const users = await userFactory.saveMany(10);
+
+    const posts = await Promise.all(
+      Array(17)
+        .fill("")
+        .map(async () => {
+          const made = await postsFactory.make({
+            author: faker.helpers.arrayElement(users),
+          });
+          return made;
+        }),
+    );
+    await postsRepository.save(posts);
   }
 }
 ```
 
-Import the entities you want to seed, like so:
-
-```typescript
-import { Factory, Seeder } from "typeorm-seeding";
-import { Connection } from "typeorm";
-import { User, Post } from "../../entities";
-
-export default class InitialDatabaseSeed implements Seeder {
-  public async run(factory: Factory, connection: Connection): Promise<void> {
-    // ...
-  }
-}
-```
 
 ## Seeding the Database
 
 Now, let's seed the database. First, create users and specify how many you want to insert:
 
 ```typescript
-const users = await factory(User)().createMany(15);
-```
+// @/src/seed.ts
+import "reflect-metadata";
+import { DataSource, DataSourceOptions } from "typeorm";
+import { runSeeders, SeederOptions } from "typeorm-extension";
+import { User } from "./db/entities/user";
+import { Post } from "./db/entities/post";
+import { UsersFactory } from "./db/seeding/factories/user.factory";
+import { PostsFactory } from "./db/seeding/factories/post.factory";
+import { MainSeeder } from "./db/seeding/seeds/initialSeed";
 
-Next, generate articles. This time, we'll also associate each article with a random user:
+const options: DataSourceOptions & SeederOptions = {
+  type: "sqlite", // Use SQLite instead of MySQL
+  database: "src/db/dev.db", // SQLite database file path
 
-```typescript
-await factory(Post)()
-  .map(async (post) => {
-    post.user = users[Math.floor(Math.random() * users.length)];
-    return post;
-  })
-  .createMany(100);
-```
-
-## Configuring TypeORM
-
-To ensure TypeORM knows where to find your factories and seeders, update your `ormconfig.ts` file:
-
-```javascript
-// @/ormconfig.ts
-import { User, Post } from "./src/db/entities";
-
-export default {
-  name: "default",
-  type: "sqlite",
-  database: "src/db/dev.db",
   entities: [User, Post],
-  synchronize: true,
-  logging: false,
-  seeds: ["src/db/seeding/seeds/**/*{.ts,.js}"],
-  factories: ["src/db/seeding/factories/**/*{.ts,.js}"],
+
+  // Additional config options brought by typeorm-extension
+  factories: [UsersFactory, PostsFactory],
+  seeds: [MainSeeder],
 };
+
+const dataSource = new DataSource(options);
+
+dataSource.initialize().then(async () => {
+  await dataSource.synchronize(true);
+  await runSeeders(dataSource);
+  process.exit();
+});
+
 ```
 
 ## Seeding Your Database
@@ -211,7 +262,7 @@ Finally, add a script to your `package.json` to run the seeding process:
 ```json
 {
   "scripts": {
-    "db:seed": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed"
+    "seed": "ts-node src/seeds.ts"
   }
 }
 ```
@@ -219,7 +270,8 @@ Finally, add a script to your `package.json` to run the seeding process:
 Make sure your API is running, and execute the following command to seed your database:
 
 ```bash
-npm run db:seed
+npm run seed
 ```
+For a working example of how to seed your database using TypeORM Seeding, you can refer to the [GitHub repository](https://github.com/testingfly/typeorm-seeding/tree/main#readme) maintained by the author. The repository provides a practical implementation of the concepts discussed in this article, allowing you to explore a real-world application and its database seeding process. This can be a valuable resource to complement your understanding and serve as a hands-on reference for your own projects.
 
 And that's it! Your database is now populated with random data. This is a powerful way to test your application and ensure it's ready for production. Happy coding!

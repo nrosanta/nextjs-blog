@@ -46,6 +46,18 @@
       "src": "projects/angular_dotnet.jpeg",
       "alt": "Anuglar DotNet"
     }
+  },
+  {
+    "title": "TypeORM Database Seeding",
+    "description": "Seeding your database is a crucial step in the application development process. It not only simplifies prototyping but also eases the transition to a production environment. Whether you're in the early stages of ideation or have a fully-fledged application, database seeding can be a game-changer. In this guide, we will walk you through how to seed your database using TypeORM and TypeORM Seeding, focusing on creating random data and establishing relationships.",
+    "link": {
+      "href": "https://github.com/testingfly/typeorm-seeding/tree/main#readme",
+      "label": "TypeORM Seeding"
+    },
+    "logo": {
+      "src": "projects/typeorm.png",
+      "alt": "TypeORM"
+    }
   }
 
 ]
