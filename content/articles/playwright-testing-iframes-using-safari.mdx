@@ -1,0 +1,152 @@
+---
+title: "Known Issues and Workarounds for Apple's Same-Origin Policy in Safari when Dealing with Iframes in Automated Testing"
+tags:
+  - title: "Known Issues and Workarounds for Apple's Same-Origin Policy in Safari when Dealing with Iframes in Automated Testing"
+  - title: Testing iFrames with Playwright
+categories:
+  - title: Test Automation
+  - title: Playwright
+  - title: Best Practices
+author:
+  name: Testingfly
+  designation: Testinfly
+  url: https://testingfly.com
+  avatar:
+    url: user.png
+    alt: Testingfly
+description: "Automated testing has become an integral part of web application development. However, testing in Safari, Apple's web browser, presents unique challenges due to the browser's strict Same-Origin Policy (SOP), especially when dealing with iframes. In this article, we'll explore known issues related to Safari's SOP, discuss workarounds, and demonstrate how Playwright, a popular automation testing framework, supports automated testing in this context."
+seoDescription: "Known Issues and Workarounds for Apple's Same-Origin Policy in Safari when Dealing with Iframes in Automated Testing"
+covers:
+  - url: "/images/content/playwright-iframe/cover.png"
+    alt: 
+status: published
+publishedAt: 2023-11-7
+---
+<div align="center">
+<img
+  src="/images/content/playwright-iframe/cover.png"
+  alt="Testing iFrame with Playwright"
+  sizes="100vw"
+  width="80%"
+  height="auto"
+/>
+</div>
+---
+
+**Table of Contents:**
+1. [Introduction](#introduction)
+2. [Known Issues with Same-Origin Policy in Safari](#known-issues-with-same-origin-policy-in-safari)
+3. [Workarounds for Testing in Safari](#workarounds-for-testing-in-safari)
+4. [Using Playwright and FrameLocator](#using-playwright-and-framelocator)
+5. [Example: Automated Testing with Playwright and Typescript](#example-automated-testing-with-playwright-and-typescript)
+6. [Setting up a Playwright TypeScript Project](#setting-up-a-playwright-typescript-project)
+7. [Conclusion](#conclusion)
+
+---
+
+## Introduction
+
+Automated testing has become an integral part of web application development. However, testing in Safari, Apple's web browser, presents unique challenges due to the browser's strict Same-Origin Policy (SOP), especially when dealing with iframes. In this article, we'll explore known issues related to Safari's SOP, discuss workarounds, and demonstrate how Playwright, a popular automation testing framework, supports automated testing in this context.
+
+## Same-Origin Policy in Safari
+
+Safari's Same-Origin Policy (SOP) is designed to protect users from cross-site scripting attacks. While this is a security feature, it may pose challenges for automated testing in scenarios involving iframes depending on the test tooling used:
+
+- **Cross-Domain Restrictions**: SOP restricts scripts in one domain from accessing content in iframes hosted on a different domain. This can make it difficult to interact with and test iframes when the content is hosted elsewhere.
+
+- **Limited Access to iframe Content**: SOP prevents direct access to iframe content from the parent document. This means that traditional methods used in automation testing might not work as expected.
+
+## Workarounds for Testing in Safari
+
+To overcome Safari's Same-Origin Policy limitations when testing iframes, there are a few workarounds:
+
+- **Use Cross-Origin Communication Techniques**: Techniques like Cross-Document Messaging (postMessage) can be used to communicate between the parent document and the iframe content. This allows you to send commands and receive responses, enabling automated testing within the iframe.
+
+- **Inject Custom JavaScript**: You can inject custom JavaScript into the iframe content to manipulate and interact with the elements. This approach requires additional coding but can be effective in bypassing SOP restrictions.
+
+- **Leverage Automation Framework Features**: Some automation frameworks, like Playwright, offer features to handle iframes more effectively, making it easier to work with the iframe's content.
+
+## Using Playwright and FrameLocator
+
+Playwright is a versatile automation framework that supports multiple browsers, including Safari. It provides a feature called `FrameLocator` to locate and interact with iframes. With `FrameLocator`, you can easily switch between frames and interact with their contents.
+
+## Example: Automated Testing with Playwright and TypeScript
+
+We will illustrate how to use Playwright to interact with a webpage containing a iframes. 
+For this demonstration, we will utilize the EchoPark website 'https://www.echopark.com/car/3N1CP5DVXNL481092.' Our objective is to interact with an element situated within a nested iframe.
+
+```typescript
+// demo.test.ts
+import { expect, test } from '@playwright/test';
+
+// Define a Playwright test case for interacting with an embedded iFrame
+test('Interact with embeded iFrame with frameLocator', async ({ page }) => {
+  // Step 1: Navigate to the target web page
+  await page.goto('https://www.echopark.com/car/3N1CP5DVXNL481092');
+
+  // Step 2: Locate and interact with the "Accept All" button (commonly found in cookie consent popups)
+  const accept = page.getByText("Accept All");
+  await accept.click();
+
+  // Step 3: Locate the outer iframe with the id 'iframe-360-view'
+  const baseFrame = page.frameLocator('#iframe-360-view').first();
+
+  // Step 4: Locate the inner iframe within the outer iframe using an XPath expression
+  const innerFrame = baseFrame.frameLocator('//html/body/iframe');
+
+  // Step 5: Locate and interact with the element with the id 'change-view-btn' inside the inner iframe
+  const view360 = innerFrame.locator('#change-view-btn');
+
+  // Step 6: Check if the 'change-view-btn' element is visible
+  expect(await view360.isVisible()).toBeTruthy();
+
+  // Step 7: Click on the 'change-view-btn' element
+  await view360.click();
+
+});
+
+```
+---
+Here's a demo of the test run. It navigates to the specific page, identifies the element inside the Neste iFrame, and interacts with it to load the "Inside View" of the car.
+
+<div align='center'>
+<img
+  src="/images/content/playwright-iframe/test.gif"
+  alt="Testing iFrame with Playwright"
+  sizes="100vw"
+  width="80%"
+  height="auto"
+/>
+</div>
+
+In this example, we use Playwright to locate the iframe, switch to it, interact with the content, and then switch back to the parent context. Playwright's `FrameLocator` makes it easier to handle iframes, even in browsers like Safari with strict SOP.
+
+## Setting up a Playwright TypeScript Project
+
+To set up a Playwright TypeScript project, you can follow these steps:
+
+1. Create a new directory for your project and navigate to it in the terminal.
+
+2. Initialize a new Node.js project with `npm init -y`.
+
+3. Install Playwright and TypeScript as development dependencies:
+   ```
+   npm install playwright --save-dev
+   npm install typescript --save-dev
+   ```
+
+4. Create a TypeScript file (e.g., `test.ts`) and write your test scripts.
+
+5. Add a script to your `package.json` to execute the test in Safari:
+   ```json
+   "scripts": {
+     "test": "npx playwright test demo.test.ts --headed --browser=webkit"
+   }
+   ```
+
+6. Run your test with `npm test`.
+
+## Conclusion
+
+Testing web applications in Safari, with its strict Same-Origin Policy, can be challenging, particularly when dealing with iframes. However, with the right tools and techniques, such as Playwright's `FrameLocator`, you can effectively automate tests in Safari, ensuring that your web application functions as expected.
+
