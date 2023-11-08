@@ -1,8 +1,9 @@
 ---
-title: "Known Issues and Workarounds for Apple's Same-Origin Policy in Safari when Dealing with Iframes in Automated Testing"
+title: "Testing iFrames using Playwright"
 tags:
-  - title: "Known Issues and Workarounds for Apple's Same-Origin Policy in Safari when Dealing with Iframes in Automated Testing"
+  - title: "iFrames Automated Testing"
   - title: Testing iFrames with Playwright
+  - title: Apple's Same Origin Policy
 categories:
   - title: Test Automation
   - title: Playwright
@@ -15,7 +16,7 @@ author:
     url: user.png
     alt: Testingfly
 description: "Automated testing has become an integral part of web application development. However, testing in Safari, Apple's web browser, presents unique challenges due to the browser's strict Same-Origin Policy (SOP), especially when dealing with iframes. In this article, we'll explore known issues related to Safari's SOP, discuss workarounds, and demonstrate how Playwright, a popular automation testing framework, supports automated testing in this context."
-seoDescription: "Known Issues and Workarounds for Apple's Same-Origin Policy in Safari when Dealing with Iframes in Automated Testing"
+seoDescription: "Testing iFrames using Playwright"
 covers:
   - url: "/images/content/playwright-iframe/cover.png"
     alt: 
@@ -107,7 +108,8 @@ test('Interact with embeded iFrame with frameLocator', async ({ page }) => {
 
 ```
 ---
-Here's a demo of the test run. It navigates to the specific page, identifies the element inside the Neste iFrame, and interacts with it to load the "Inside View" of the car.
+Here's a demo of the test run using Playwright with Safari. It navigates to the specific page, identifies the element inside the Neste iFrame, and interacts with it to load the "Inside View" of the car.
+Note that the content of the inner iFrame is loaded from a different domain.
 
 <div align='center'>
 <img
@@ -119,7 +121,7 @@ Here's a demo of the test run. It navigates to the specific page, identifies the
 />
 </div>
 
-In this example, we use Playwright to locate the iframe, switch to it, interact with the content, and then switch back to the parent context. Playwright's `FrameLocator` makes it easier to handle iframes, even in browsers like Safari with strict SOP.
+In this example, we use Playwright to locate the iframe, switch to it, interact with the content. Playwright's `FrameLocator` makes it easier to handle iframes, even in browsers like Safari with strict SOP.
 
 ## Setting up a Playwright TypeScript Project
 
