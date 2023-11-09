@@ -1,0 +1,107 @@
+---
+title: "Enable efficient and maintainable UI test automation by incorporating 'data-testid' attributes"
+tags:
+  - title: "Enable efficient and maintainable UI test automation by incorporating 'data-testid' attributes"
+  - title: Locator Strategy
+categories:
+  - title: UI Testing
+  - title: Web Development
+  - title: Best Practices
+author:
+  name: Testingfly
+  designation: Testinfly
+  url: https://testingfly.com
+  avatar:
+    url: user.png
+    alt: Testingfly
+description: "Optimize UI test automation by using 'data-testid' attributes and centralizing their management in a shared file. Enhance clarity, ensure consistency, and simplify maintenance for efficient collaboration between development and testing teams. This streamlined approach accelerates test script development, fostering a robust and reliable UI testing framework."
+seoDescription: "Enable efficient and maintainable UI test automation by incorporating 'data-testid' attributes"
+covers:
+  - url: "/images/content/centralized-locators/cover.png"
+    alt: "Enable efficient and maintainable UI test automation by incorporating 'data-testid' attributes"
+status: published
+publishedAt: 2022-7-19
+---
+<div align="center">
+<img
+  src="/images/content/centralized-locators/cover.png"
+  alt="Codegen using OpenAPI"
+  sizes="100vw"
+  width="100%"
+  height="auto"
+/>
+</div>
+
+---
+
+## Objective:
+
+- Enable efficient and maintainable UI test automation by incorporating “data-testid” attributes. 
+- Centralize the management of these attributes in a shared file for clarity, consistency, and ease of maintenance.
+
+---
+
+## Steps:
+
+**1. Create a Centralized Locator File:**
+
+Create a dedicated file, e.g., locators.ts, to store all the “data-testid” attributes used for UI testing.
+
+``` typescript
+// locators.ts
+
+export const LoginPage = {
+  usernameInput: '[data-testid="login-username"]',
+  passwordInput: '[data-testid="login-password"]',
+  loginButton: '[data-testid="login-button"]',
+};
+
+export const HomePage = {
+  welcomeMessage: '[data-testid="welcome-message"]',
+  userProfileLink: '[data-testid="user-profile-link"]',
+};
+```
+---
+**2. Integrate Locators in the UI (e.g. Angular) Components:**
+
+In each Angular component, import the relevant locators from the centralized file and use them to identify the elements.
+
+``` typescript
+// login.component.ts
+
+import { LoginPage } from 'path-to-locators/locators';
+
+@Component({
+  selector: 'app-login',
+  template: `
+    <input [ngModel]="username" (ngModelChange)="username = $event" [attr.data-testid]="LoginPage.usernameInput" />
+    <input type="password" [ngModel]="password" (ngModelChange)="password = $event" [attr.data-testid]="LoginPage.passwordInput" />
+    <button (click)="login()" [attr.data-testid]="LoginPage.loginButton">Login</button>
+  `,
+})
+export class LoginComponent {
+  username: string = '';
+  password: string = '';
+
+  login() {
+    // Implement login logic
+  }
+}
+```
+
+## Benefits:
+
+1. ### Consistency and Readability: 
+    * Uniformly structured locators enhance code readability and maintain consistency across the application.
+
+2. ### Centralized Management:
+    * All locators are stored in one central file, promoting easy maintenance and updates.
+
+3. ### Collaboration:
+    * Developers and QA engineers can collaborate effectively by referencing the same set of locators for both testing and development.
+
+4. ### Avoidance of Confusing Names:
+    * Group locators logically in the central file to prevent naming conflicts and confusion.
+
+5. ### Scalability:
+    * Easily scale to accommodate a large number of pages and elements with an organized and logical grouping of locators.
