@@ -12,7 +12,7 @@ export default function Articles({ articles }: { articles: Article[] }) {
         <Container className="mt-9">
           <div className="max-w-5xl">
             <h3 className="font-bold text-2xl md:text-2xl tracking-tight mb-6 text-zinc-800 dark:text-zinc-100">
-              Feature Articles
+              📌 3 Pinned
             </h3>
 
             <div className="flex max-w-5xl flex-col space-y-16">
