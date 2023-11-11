@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import Link from "next/link";
 import { ChevronRightIcon } from "./Icons";
+import Image from 'next/image'
 
 export function Card({
   as: Component = "div",
@@ -64,6 +65,25 @@ Card.Description = function CardDescription({
       {children}
     </p>
   );
+};
+
+Card.Image = function CardImage({
+  children,
+}:{
+children: React.ReactNode
+}): JSX.Element {
+  return (
+    <div className="mx-auto flex items-center justify-center">
+    <div className="rounded-md bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 p-0">
+      <div className="relative">
+      <div className="rounded-md bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 p-1">
+        <Image src={String(children)} alt={""} width={700} height={500} className="rounded-lg" ></Image>
+        </div>
+      </div>
+    </div>
+    </div>
+
+  )
 };
 
 Card.Cta = function CardCta({
