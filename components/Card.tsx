@@ -72,12 +72,15 @@ Card.Image = function CardImage({
 }:{
 children: React.ReactNode
 }): JSX.Element {
+  if (String(children) === "") {
+    return <></>;
+  }
   return (
-    <div className="mx-auto flex items-center justify-center">
+    <div className="mx-auto flex items-center justify-center p-2">
     <div className="rounded-md bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 p-0">
       <div className="relative">
       <div className="rounded-md bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 p-1">
-        <Image src={String(children)} alt={""} width={700} height={500} className="rounded-lg" ></Image>
+        <Image src={String(children)} alt={""} width={700} height={500} className="rounded-lg"></Image>
         </div>
       </div>
     </div>
