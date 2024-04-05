@@ -7,7 +7,7 @@ export default withContentlayer({
     reactStrictMode: true,
     swcMinify: false,
     experimental: {
-        newNextLinkBehavior: true,
+        // newNextLinkBehavior: true,
         scrollRestoration: true,
         mdxRs: false,
     },
